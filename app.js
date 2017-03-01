@@ -1,16 +1,3 @@
-//us.router is external module, so add as a dependency in the app
-// HV22pAXxjBkK
-// express --ejs flapper-news (ejs to use standard HTML and not Jade)
-//run npm run dev
-//http://cwbuecheler.com/web/tutorials/2013/node-express-mongo/  --- to set up mongodb
-//mongod --dbpath c:\node\nodetest1\data\
-//mongod --shutdown
-//use admin
-//db.shutdownServer()
-//testuser, testpassword
-//npm start
-//db.getCollection.Names()
-//GitHub -- $0rJ<$6nFa>*
 
 const express = require('express');
 const path = require('path');
