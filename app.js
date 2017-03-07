@@ -7,6 +7,8 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const config = require('./config/database');
 
+
+//Connect to database
 mongoose.connect(config.database);
 
 mongoose.connection.on('connected', () => {
@@ -18,20 +20,19 @@ mongoose.connection.on('error', () => {
 })
 
 const app = express();
-
 const users = require('./routes/users');
-
 const port = 3000;
 
-//CORS middleware
+//Middleware
 app.use(cors());
-
-//
 app.use(express.static(path.join(__dirname, 'public')));
-
-//Body Parser Middleware
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
 
+require('./config/passport')(passport);
+
+//Routes
 app.use('/users', users)
 
 //Index Route
