@@ -1,3 +1,15 @@
-<p>
-  register works!
-</p>
+<h2 class="page-header">Register</h2>
+<form (submit)="onRegisterSubmit()">
+  <div class="form-group">
+    <label>Name</label>
+    <input type="text" [(ngModel)]="name" name="name" class="form-control margin-bottom">
+    <label>Username</label>
+    <input type="text" [(ngModel)]="username" name="username" class="form-control margin-bottom">
+    <label>Email</label>
+    <input type="text" [(ngModel)]="email" name="email" class="form-control margin-bottom">
+    <label>Password</label>
+    <input type="text" [(ngModel)]="password" name="password" class="form-control margin-bottom">
+    <input type="submit" class="btn btn-primary" value="Submit">
+  </div>
+</form>
+
