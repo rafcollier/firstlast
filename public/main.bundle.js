@@ -638,7 +638,7 @@ module.exports = "<p>\n  dashboard works!\n</p>\n"
 /***/ 683:
 /***/ (function(module, exports) {
 
-module.exports = "\n<div>\n  <h1 class=\"text-center\"> FIRST & LAST</h1>\n  <h4 class=\"text-center margin-bottom\">Welcome to First 'n Last, where you can find the first and last sentences of books.</h4>\n  <h4 class=\"text-center margin-bottom\">Want to contribute? Register and start entering the first and last sentences of your favourite books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephanie Meyer.</h4>\n\n  <div class=\"btn-group btn-group-justified\">\n    <a class=\"btn btn-default\" [routerLink]=\"['/register']\">Register</a>\n    <a class = \"btn btn-default\" [routerLink]=\"['/login']\">Login</a>\n  </div>\n</div>\n\n"
+module.exports = "\n<div>\n  <h1 class=\"text-center\"> FIRST 'n LAST</h1>\n  <h4 class=\"text-center margin-bottom\">Welcome to First 'n Last, where you can find the first and last sentences of books.</h4>\n  <h4 class=\"text-center margin-bottom\">Want to contribute? Register and start entering the first and last sentences of your favourite books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephanie Meyer.</h4>\n\n  <div class=\"btn-group btn-group-justified\">\n    <a class=\"btn btn-default\" [routerLink]=\"['/register']\">Register</a>\n    <a class = \"btn btn-default\" [routerLink]=\"['/login']\">Login</a>\n  </div>\n</div>\n\n"
 
 /***/ }),
 
