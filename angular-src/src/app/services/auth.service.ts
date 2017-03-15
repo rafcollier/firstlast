@@ -29,7 +29,7 @@ export class AuthService {
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
     //return this.http.post('http://localhost:3000/sentences/sentences', sentences, {headers: headers}) //for local development
-    return this.http.post('users/register', user, {headers: headers})
+    return this.http.post('sentences/sentences', sentences, {headers: headers}) //for local development
       .map(res => res.json());
   }
 
