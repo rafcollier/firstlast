@@ -1,0 +1,14 @@
+<h2 class="page-header">Enter first and last sentences</h2>
+<form (submit)="onSentencesSubmit()">
+  <div class="form-group">
+    <label>Book Title</label>
+    <input type="text" [(ngModel)]="bookTitle" name="bookTitle" class="form-control margin-bottom">
+    <label>Author Name</label>
+    <input type="text" [(ngModel)]="authorName" name="authorName" class="form-control margin-bottom">
+    <label>First Sentence</label>
+    <input type="text" [(ngModel)]="firstSentence" name="firstSentence" class="form-control margin-bottom">
+    <label>Last Sentence</label>
+    <input type="text" [(ngModel)]="lastSentence" name="lastSentence" class="form-control margin-bottom">
+    <input type="submit" class="btn btn-primary" value="Submit">
+  </div>
+</form>
