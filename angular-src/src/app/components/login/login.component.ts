@@ -24,12 +24,15 @@ export class LoginComponent implements OnInit {
   }
 
   onLoginSubmit(){
+
     const user = {
       username: this.username,
       password: this.password
     }
+    console.log("Login form submitted with: " + user.username);
 
     this.authService.authenticateUser(user).subscribe(data => {
+      console.log("Login request returned from server");
       if (data.success) {
         this.authService.storeUserData(data.token, data.user);
         this.flashMessage.show('You are logged in', {cssClass: 'alert-success', timeout: 5000});

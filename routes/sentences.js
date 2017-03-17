@@ -23,9 +23,18 @@ router.post('/sentences', (req, res, next) => {
 	});	
 });
 
+//Get sentences to display on the homepage
+router.get('/sentences', (req, res, next) => {
+	console.log("In the backend router to get sentences");
+	Sentences.find({}, function (err, docs) {
+		console.log("Query the database for all sentences");
+		if(!err) {
+			console.log("Here are the sentences:" + docs);	
+			res.json(docs);
+		} else {throw err;}
+	});
+});
 
-//router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-//	res.json({user: req.user});
-//});
+
 
 module.exports = router;

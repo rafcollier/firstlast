@@ -45,11 +45,18 @@ onSentencesSubmit(){
     //Check success of write to database
     this.authService.submitSentences(sentences).subscribe(data => {
       if(data.success){
-        this.flashMessage.show('Thank you for contributing', {cssClass: 'alert-success', timeout: 3000});
+        this.flashMessage.show('Thanks for contributing ', {cssClass: 'alert-success', timeout: 3000});
+        //clear the input fields
+        this.bookTitle = "";
+        this.authorName = "";
+        this.firstSentence = "";
+        this.lastSentence = "";
+        //route back to input more sentences
         this.router.navigate(['/sentences']); 
       } else {
         this.flashMessage.show('Sorry, something went wrong', {cssClass: 'alert-danger', timeout: 3000});
         this.router.navigate(['/sentences']); 
+        return false;
       }
     });
 

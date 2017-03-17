@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +8,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+	sentences: [Object];
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) { }
 
-  ngOnInit() {
-  }
+  	ngOnInit() {
+      console.log("Calling sevice to get sentennces");
+  		this.authService.getSentences().subscribe(entries => {
+  			console.log(entries[0]);
+  			console.log(entries[2]);
+  			console.log(entries);
+  			this.sentences = entries;
+
+
+  			console.log(entries[0]);
+
+        //console.log("Sentences returned from server for: " + this.sentences);
+  		},
+  		err => {
+  			console.log(err);
+  			return false;
+  		});
+  	}
 
 }

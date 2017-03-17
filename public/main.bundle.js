@@ -20,6 +20,7 @@ var ValidateService = (function () {
     function ValidateService() {
     }
     ValidateService.prototype.validateRegister = function (user) {
+        console.log("Validating registration form");
         if (user.name == undefined || user.email == undefined || user.name == undefined || user.password == undefined) {
             return false;
         }
@@ -28,6 +29,7 @@ var ValidateService = (function () {
         }
     };
     ValidateService.prototype.validateSentences = function (sentences) {
+        console.log("Validating sentence submission form");
         if (sentences.bookTitle == undefined || sentences.authorName == undefined || sentences.firstSentence == undefined || sentences.lastSentence == undefined) {
             return false;
         }
@@ -36,6 +38,7 @@ var ValidateService = (function () {
         }
     };
     ValidateService.prototype.validateEmail = function (email) {
+        console.log("Validating email address in registration form");
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
     };
@@ -126,11 +129,11 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(467);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(206);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_validate_service__ = __webpack_require__(220);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_flash_messages__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_angular2_flash_messages__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_auth_service__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_auth_service__ = __webpack_require__(56);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__guards_auth_guard__ = __webpack_require__(515);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_component__ = __webpack_require__(506);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_navbar_navbar_component__ = __webpack_require__(511);
@@ -248,6 +251,8 @@ var DashboardComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_auth_service__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(55);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -259,10 +264,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
+
 var HomeComponent = (function () {
-    function HomeComponent() {
+    function HomeComponent(authService, router) {
+        this.authService = authService;
+        this.router = router;
     }
     HomeComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        console.log("Calling sevice to get sentennces");
+        this.authService.getSentences().subscribe(function (entries) {
+            console.log(entries[0]);
+            console.log(entries[2]);
+            console.log(entries);
+            _this.sentences = entries;
+            console.log(entries[0]);
+            //console.log("Sentences returned from server for: " + this.sentences);
+        }, function (err) {
+            console.log(err);
+            return false;
+        });
     };
     HomeComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -270,9 +292,10 @@ var HomeComponent = (function () {
             template: __webpack_require__(685),
             styles: [__webpack_require__(677)]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__services_auth_service__["a" /* AuthService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === 'function' && _b) || Object])
     ], HomeComponent);
     return HomeComponent;
+    var _a, _b;
 }());
 //# sourceMappingURL=/Users/Collier/Documents/firstlast/angular-src/src/home.component.js.map
 
@@ -283,8 +306,8 @@ var HomeComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_auth_service__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_auth_service__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
@@ -315,7 +338,9 @@ var LoginComponent = (function () {
             username: this.username,
             password: this.password
         };
+        console.log("Login form submitted with: " + user.username);
         this.authService.authenticateUser(user).subscribe(function (data) {
+            console.log("Login request returned from server");
             if (data.success) {
                 _this.authService.storeUserData(data.token, data.user);
                 _this.flashMessage.show('You are logged in', { cssClass: 'alert-success', timeout: 5000 });
@@ -347,8 +372,8 @@ var LoginComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_auth_service__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_auth_service__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavbarComponent; });
@@ -399,8 +424,8 @@ var NavbarComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_auth_service__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_auth_service__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(55);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -421,8 +446,10 @@ var ProfileComponent = (function () {
     }
     ProfileComponent.prototype.ngOnInit = function () {
         var _this = this;
+        console.log("Calling sevice to fetch profile");
         this.authService.getProfile().subscribe(function (profile) {
             _this.user = profile.user;
+            console.log("Profile returned from server for: " + _this.user);
         }, function (err) {
             console.log(err);
             return false;
@@ -451,8 +478,8 @@ var ProfileComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_validate_service__ = __webpack_require__(220);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_auth_service__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_auth_service__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(55);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -480,6 +507,7 @@ var RegisterComponent = (function () {
     };
     RegisterComponent.prototype.onRegisterSubmit = function () {
         var _this = this;
+        console.log("Registration form submitted");
         var user = {
             name: this.name,
             email: this.email,
@@ -531,8 +559,8 @@ var RegisterComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_validate_service__ = __webpack_require__(220);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__ = __webpack_require__(108);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_auth_service__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_auth_service__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(55);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SentencesComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -573,12 +601,19 @@ var SentencesComponent = (function () {
         //Check success of write to database
         this.authService.submitSentences(sentences).subscribe(function (data) {
             if (data.success) {
-                _this.flashMessage.show('Thank you for contributing', { cssClass: 'alert-success', timeout: 3000 });
+                _this.flashMessage.show('Thanks for contributing ', { cssClass: 'alert-success', timeout: 3000 });
+                //clear the input fields
+                _this.bookTitle = "";
+                _this.authorName = "";
+                _this.firstSentence = "";
+                _this.lastSentence = "";
+                //route back to input more sentences
                 _this.router.navigate(['/sentences']);
             }
             else {
                 _this.flashMessage.show('Sorry, something went wrong', { cssClass: 'alert-danger', timeout: 3000 });
                 _this.router.navigate(['/sentences']);
+                return false;
             }
         });
     };
@@ -602,8 +637,8 @@ var SentencesComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_auth_service__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_auth_service__ = __webpack_require__(56);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthGuard; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -658,7 +693,7 @@ var environment = {
 
 /***/ }),
 
-/***/ 66:
+/***/ 56:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -690,6 +725,7 @@ var AuthService = (function () {
     AuthService.prototype.registerUser = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
+        console.log("Http request to register user with user: " + user.username + " and headers: " + headers);
         return this.http.post('http://localhost:3000/users/register', user, { headers: headers }) //for local development
             .map(function (res) { return res.json(); });
     };
@@ -704,6 +740,7 @@ var AuthService = (function () {
     AuthService.prototype.authenticateUser = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
+        console.log("Http request to check login credentials for " + user.username);
         //return this.http.post('users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
         return this.http.post('http://localhost:3000/users/authenticate', user, { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
@@ -713,8 +750,19 @@ var AuthService = (function () {
         this.loadToken();
         headers.append('Authorization', this.authToken);
         headers.append('Content-Type', 'application/json');
+        console.log("Making https reqeust for profle from service");
         //return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
         return this.http.get('http://localhost:3000/users/profile', { headers: headers }) //add this for local dev: http://localhost:3000/
+            .map(function (res) { return res.json(); });
+    };
+    AuthService.prototype.getSentences = function () {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
+        headers.append('Content-Type', 'application/json');
+        console.log("Sending request for sentences to server");
+        //return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
+        //console.log( this.http.get('http://localhost:3000/sentences/sentences', {headers: headers}) //add this for local dev: http://localhost:3000/
+        //  .map(res => res.json()));;
+        return this.http.get('http://localhost:3000/sentences/sentences', { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.storeUserData = function (token, user) {
@@ -763,7 +811,7 @@ module.exports = ""
 /***/ 677:
 /***/ (function(module, exports) {
 
-module.exports = ".margin-bottom {\n\tmargin-bottom:15px;\n}\n\n\n"
+module.exports = ".margin-bottom {\n\tmargin-bottom:15px;\n}\n\n.font-red {\n\tcolor:red;\n}\n\n.background-grey {\n\tbackground-color:grey;\n}\n"
 
 /***/ }),
 
@@ -819,7 +867,7 @@ module.exports = "<p>\n  dashboard works!\n</p>\n"
 /***/ 685:
 /***/ (function(module, exports) {
 
-module.exports = "\n<div>\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h4 class=\"text-center margin-bottom\">Welcome to First and Last, where you can find the first and last sentences of books.</h4>\n  <h4 class=\"text-center margin-bottom\">Want to contribute? Register and start entering the first and last sentences of your favourite books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephanie Meyer.</h4>\n\n  <div class=\"btn-group btn-group-justified\">\n    <a class=\"btn btn-default\" [routerLink]=\"['/register']\">Register</a>\n    <a class = \"btn btn-default\" [routerLink]=\"['/login']\">Login</a>\n  </div>\n</div>\n\n"
+module.exports = "\n\n<div class=\"jumbotron\">\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h4 class=\"text-center margin-bottom\">Welcome to First and Last, a collection of the first and last sentences of books.</h4>\n  <h4 class=\"text-center margin-bottom\">Register and submit the first and last sentences of your favourite books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephanie Meyer.</h4>\n</div>\n\n\n  <div *ngFor=\"let sentence of sentences\">\n    <h4 class=\"text-center font-red\">\n      {{ sentence.bookTitle }} by {{ sentence.authorName }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br><hr><br>\n  </div>\n\n\n\n  <div class=\"btn-group btn-group-justified\">\n    <a class=\"btn btn-default\" [routerLink]=\"['/register']\">Register</a>\n    <a class = \"btn btn-default\" [routerLink]=\"['/login']\">Login</a>\n  </div>\n\n\n\n"
 
 /***/ }),
 
