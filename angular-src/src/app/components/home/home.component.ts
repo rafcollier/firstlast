@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   	ngOnInit() {
-      console.log("Calling sevice to get sentennces");
+      console.log("Calling sevice to get sentences");
   		this.authService.getSentences().subscribe(entries => {
   			console.log(entries[0]);
   			console.log(entries[2]);

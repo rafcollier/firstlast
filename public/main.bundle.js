@@ -273,7 +273,7 @@ var HomeComponent = (function () {
     }
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log("Calling sevice to get sentennces");
+        console.log("Calling sevice to get sentences");
         this.authService.getSentences().subscribe(function (entries) {
             console.log(entries[0]);
             console.log(entries[2]);
@@ -759,7 +759,7 @@ var AuthService = (function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
         console.log("Sending request for sentences to server");
-        return this.http.get('users/profile', { headers: headers }) //add this for local dev: http://localhost:3000/
+        return this.http.get('sentences/sentences', { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.storeUserData = function (token, user) {
