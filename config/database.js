@@ -1,5 +1,6 @@
 module.exports = {
 	//database: 'mongodb://localhost:27017/firstlast',
-	database: 'mongodb://heroku_hmf4ffhq:u4kmfe8p9nk3vjauoq74m8mhur@ds035593.mlab.com:35593/heroku_hmf4ffhq',
+	database: 'mongodb://heroku_zrw6q2jc:ompdea0o2sd5f2c7al0tbcpcnv@ds133670.mlab.com:33670/heroku_zrw6q2jc',
 	secret: 'thebigsecret'
 }
+
