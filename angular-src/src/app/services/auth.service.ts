@@ -19,8 +19,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log("Http request to register user with user: " + user.username + " and headers: " + headers);
-    return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) //for local development
-    //return this.http.post('users/register', user, {headers: headers})
+    //return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) //for local development
+    return this.http.post('users/register', user, {headers: headers})
       .map(res => res.json());
   }
 
@@ -29,8 +29,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/sentences/sentences', sentences, {headers: headers}) //for local development
-    //return this.http.post('sentences/sentences', sentences, {headers: headers}) //for local development
+    //return this.http.post('http://localhost:3000/sentences/sentences', sentences, {headers: headers}) //for local development
+    return this.http.post('sentences/sentences', sentences, {headers: headers}) //for local development
       .map(res => res.json());
   }
 
@@ -38,8 +38,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log("Http request to check login credentials for " + user.username);
-    //return this.http.post('users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
-    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
+    return this.http.post('users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
+    //return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   }
 
@@ -49,8 +49,8 @@ export class AuthService {
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
     console.log("Making https reqeust for profle from service");
-    //return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
-    return this.http.get('http://localhost:3000/users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
+    return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
+    //return this.http.get('http://localhost:3000/users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
 
@@ -58,10 +58,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log("Sending request for sentences to server");
-    //return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
-   //console.log( this.http.get('http://localhost:3000/sentences/sentences', {headers: headers}) //add this for local dev: http://localhost:3000/
-    //  .map(res => res.json()));;
-   return this.http.get('http://localhost:3000/sentences/sentences', {headers: headers}) //add this for local dev: http://localhost:3000/
+    return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
+    //return this.http.get('http://localhost:3000/sentences/sentences', {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
 
