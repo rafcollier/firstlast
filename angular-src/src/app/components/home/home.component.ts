@@ -8,22 +8,14 @@ import {Router} from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-	sentences: [Object];
+	sentences: [Object]; //getting an array of objects from the database
 
   constructor(private authService: AuthService, private router: Router) { }
 
   	ngOnInit() {
       console.log("Calling sevice to get sentences");
   		this.authService.getSentences().subscribe(entries => {
-  			console.log(entries[0]);
-  			console.log(entries[2]);
-  			console.log(entries);
-  			this.sentences = entries;
-
-
-  			console.log(entries[0]);
-
-        //console.log("Sentences returned from server for: " + this.sentences);
+  			this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
   		},
   		err => {
   			console.log(err);

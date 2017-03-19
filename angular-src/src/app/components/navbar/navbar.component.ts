@@ -21,6 +21,12 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
   }
 
+  isIn = false;
+  toggleState() {
+    let bool = this.isIn;
+    this.isIn = bool === false ? true : false;
+  }
+
   onLogoutClick(){
     this.authService.logout();
     this.flashMessage.show('You are logged out', {cssClass: 'alert-success', timeout: 3000});

@@ -275,12 +275,7 @@ var HomeComponent = (function () {
         var _this = this;
         console.log("Calling sevice to get sentences");
         this.authService.getSentences().subscribe(function (entries) {
-            console.log(entries[0]);
-            console.log(entries[2]);
-            console.log(entries);
-            _this.sentences = entries;
-            console.log(entries[0]);
-            //console.log("Sentences returned from server for: " + this.sentences);
+            _this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
         }, function (err) {
             console.log(err);
             return false;
@@ -395,8 +390,13 @@ var NavbarComponent = (function () {
         this.authService = authService;
         this.router = router;
         this.flashMessage = flashMessage;
+        this.isIn = false;
     }
     NavbarComponent.prototype.ngOnInit = function () {
+    };
+    NavbarComponent.prototype.toggleState = function () {
+        var bool = this.isIn;
+        this.isIn = bool === false ? true : false;
     };
     NavbarComponent.prototype.onLogoutClick = function () {
         this.authService.logout();
@@ -864,7 +864,7 @@ module.exports = "<p>\n  dashboard works!\n</p>\n"
 /***/ 685:
 /***/ (function(module, exports) {
 
-module.exports = "\n\n<div class=\"jumbotron\">\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h4 class=\"text-center margin-bottom\">Welcome to First and Last, a collection of the first and last sentences of books.</h4>\n  <h4 class=\"text-center margin-bottom\">Register and submit sentences from your favourite books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephanie Meyer.</h4>\n</div>\n\n\n  <div *ngFor=\"let sentence of sentences\">\n    <h4 class=\"text-center font-red\">\n      {{ sentence.bookTitle }} by {{ sentence.authorName }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br><hr><br>\n  </div>\n\n\n\n  <div class=\"btn-group btn-group-justified\">\n    <a class=\"btn btn-default\" [routerLink]=\"['/register']\">Register</a>\n    <a class = \"btn btn-default\" [routerLink]=\"['/login']\">Login</a>\n  </div>\n\n\n\n"
+module.exports = "\n\n<div class=\"jumbotron\">\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h3 class=\"text-center margin-bottom\">A COLLECTION OF THE FIRST AND LAST SENTENCES OF BOOKS</h3>\n  <h4 class=\"text-center margin-bottom\">Please contribute. Register and submit sentences from your favourite books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephanie Meyer.</h4>\n</div>\n\n\n  <div *ngFor=\"let sentence of sentences\">\n    <h4 class=\"text-center\">\n      <span class=\"font-red\">{{ sentence.bookTitle }} </span> by {{ sentence.authorName }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br><hr><br>\n  </div>\n\n\n\n  <div class=\"btn-group btn-group-justified\" *ngIf=\"!authService.loggedIn()\" [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\">\n    <a class=\"btn btn-default\" [routerLink]=\"['/register']\">Register</a>\n    <a class = \"btn btn-default\" [routerLink]=\"['/login']\">Login</a>\n  </div>\n\n\n\n\n  <div>\n    <br>\n  </div>\n\n\n\n"
 
 /***/ }),
 
@@ -878,7 +878,7 @@ module.exports = "<h2 class=\"page-header\">Login</h2>\n<form (submit)=\"onLogin
 /***/ 687:
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-default\">\n      <div class=\"container\">\n        <div class=\"navbar-header\">\n          <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n          </button>\n          <a class=\"navbar-brand\" href=\"#\">First and Last</a>\n        </div>\n        <div id=\"navbar\" class=\"collapse navbar-collapse\">\n          <ul class=\"nav navbar-nav navbar-right\">\n            <li [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\"> <a [routerLink]=\"['/']\">Home</a></li>\n            <li *ngIf=\"authService.loggedIn()\" [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\"> <a [routerLink]=\"['/sentences']\">Add Sentences</a></li>\n            <li *ngIf=\"authService.loggedIn()\" [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\"> <a [routerLink]=\"['/profile']\">Profile</a></li>\n            <li *ngIf=\"!authService.loggedIn()\" [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\"> <a [routerLink]=\"['/login']\">Login</a></li>\n            <li *ngIf=\"!authService.loggedIn()\" [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\"> <a [routerLink]=\"['/register']\">Register</a></li>\n            <li *ngIf=\"authService.loggedIn()\"> <a (click)=\"onLogoutClick()\" href=\"\">Logout</a></li>\n          </ul>\n        </div><!--/.nav-collapse -->\n      </div>\n    </nav>"
+module.exports = "<nav class=\"navbar navbar-default\">\n      <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n          <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\" (click)=\"toggleState()\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n          </button>\n          <a class=\"navbar-brand\" href=\"#\">First and Last</a>\n        </div>\n        <div id=\"navbar\" class=\"collapse navbar-collapse\" [ngClass]=\"{'in': isIn}\">\n          \n          <ul class=\"nav navbar-nav navbar-right\">\n            <li [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\"> <a [routerLink]=\"['/']\">Home</a></li>\n            <li *ngIf=\"authService.loggedIn()\" [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\"> <a [routerLink]=\"['/sentences']\">Add Sentences</a></li>\n            <li *ngIf=\"authService.loggedIn()\" [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\"> <a [routerLink]=\"['/profile']\">Profile</a></li>\n            <li *ngIf=\"!authService.loggedIn()\" [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\"> <a [routerLink]=\"['/login']\">Login</a></li>\n            <li *ngIf=\"!authService.loggedIn()\" [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\"> <a [routerLink]=\"['/register']\">Register</a></li>\n            <li *ngIf=\"authService.loggedIn()\"> <a (click)=\"onLogoutClick()\" href=\"\">Logout</a></li>\n          </ul>\n        </div><!--/.nav-collapse -->\n      </div>\n    </nav>"
 
 /***/ }),
 
