@@ -15,26 +15,42 @@ router.post('/register', (req, res, next) => {
 		password: req.body.password
 	});
 
-	console.log("Entering user register route in Node with user :" + newUser);
+	console.log("entering user register route in Node with user :" + newUser);
 
-	User.addUser(newUser, (err, user) => {
-		if(err) {
-			res.json({success: false, msg: 'Failed to register user'});
-		} else {
-			res.json({success: true, msg: 'User registered'});
-			console.log("Sucess...New user added. Returning: ");
+	User.getUserByUsername(newUser.username, (err, user) => {
+		console.log("returned from database request to check username duplication");
+		if(err) throw err;
+		if(user) {
+			return res.json({success: false, msg: 'Username already registered'});
 		}
-	});	
+
+		User.getUserByEmail(newUser.email, (err, email) => {
+			console.log("returned from database request to check for email duplication");
+			if(err) throw err;
+			if(email) {
+			return res.json({success: false, msg: 'Someone already registered with this email address'});
+			}
+
+			User.addUser(newUser, (err, user) => {
+				if(err) {
+					res.json({success: false, msg: 'Failed to register user'});
+				} else {
+					res.json({success: true, msg: 'User registered'});
+					console.log("success...new user added.");
+				}
+			});
+		});
+	});
 });
 
 router.post('/authenticate', (req, res, next) => {
 	const username = req.body.username;
 	const password = req.body.password;
 
-	console.log("Authenticating login in Node for:" + username);
+	console.log("authenticating login in Node for:" + username);
 
 	User.getUserByUsername(username, (err, user) => {
-		console.log("Returned from database request to look up user by name");
+		console.log("returned from database request to look up user by name for login");
 		if(err) throw err;
 		if(!user) {
 			return res.json({success: false, msg: 'User not found'});
@@ -42,7 +58,7 @@ router.post('/authenticate', (req, res, next) => {
 		
 		User.comparePassword(password, user.password, (err, isMatch) => { 
 
-			console.log("Returning from password check...prepare response to angular");
+			console.log("returning from password check...set up session token");
 			
 			if (err) throw err;
 			
@@ -65,7 +81,7 @@ router.post('/authenticate', (req, res, next) => {
 					
 				});
 
-				console.log("Password match...returning");
+				console.log("returning to front end");
 
 			} else {
 				return res.json({success: false, msg: 'Wrong password'});
@@ -75,7 +91,7 @@ router.post('/authenticate', (req, res, next) => {
 });
 
 router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-	console.log("Returning profile to client");
+	console.log("returning profile to client");
 	res.json({user: req.user});
 });
 

@@ -531,7 +531,7 @@ var RegisterComponent = (function () {
                 _this.router.navigate(['/login']);
             }
             else {
-                _this.flashMessage.show('Sorry, something went wrong', { cssClass: 'alert-danger', timeout: 3000 });
+                _this.flashMessage.show(data.msg, { cssClass: 'alert-danger', timeout: 3000 });
                 _this.router.navigate(['/register']);
             }
         });
@@ -725,9 +725,8 @@ var AuthService = (function () {
     AuthService.prototype.registerUser = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        console.log("Http request to register user with user: " + user.username + " and headers: " + headers);
-        //return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) //for local development
-        return this.http.post('users/register', user, { headers: headers })
+        console.log("http request to register user with user: " + user.username);
+        return this.http.post('http://localhost:3000/users/register', user, { headers: headers }) //for local development
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.submitSentences = function (sentences) {
@@ -735,15 +734,16 @@ var AuthService = (function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Authorization', this.authToken);
         headers.append('Content-Type', 'application/json');
-        //return this.http.post('http://localhost:3000/sentences/sentences', sentences, {headers: headers}) //for local development
-        return this.http.post('sentences/sentences', sentences, { headers: headers }) //for local development
+        console.log("submitting sentences to server");
+        return this.http.post('http://localhost:3000/sentences/sentences', sentences, { headers: headers }) //for local development
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.authenticateUser = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        console.log("Http request to check login credentials for " + user.username);
-        return this.http.post('users/authenticate', user, { headers: headers }) //add this for local dev: http://localhost:3000/
+        console.log("http request to check login credentials for " + user.username);
+        //return this.http.post('users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
+        return this.http.post('http://localhost:3000/users/authenticate', user, { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.getProfile = function () {
@@ -751,15 +751,17 @@ var AuthService = (function () {
         this.loadToken();
         headers.append('Authorization', this.authToken);
         headers.append('Content-Type', 'application/json');
-        console.log("Making https reqeust for profle from service");
-        return this.http.get('users/profile', { headers: headers }) //add this for local dev: http://localhost:3000/
+        console.log("http reqeust for profle from service");
+        //return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
+        return this.http.get('http://localhost:3000/users/profile', { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.getSentences = function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        console.log("Sending request for sentences to server");
-        return this.http.get('sentences/sentences', { headers: headers }) //add this for local dev: http://localhost:3000/
+        console.log("sending request for sentences to server");
+        //return this.http.get('sentences/sentences', {headers: headers}) //add this for local dev: http://localhost:3000/
+        return this.http.get('http://localhost:3000/sentences/sentences', { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.storeUserData = function (token, user) {
@@ -864,7 +866,7 @@ module.exports = "<p>\n  dashboard works!\n</p>\n"
 /***/ 685:
 /***/ (function(module, exports) {
 
-module.exports = "\n\n<div class=\"jumbotron\">\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h3 class=\"text-center margin-bottom\">A collection of first and last sentences</h3>\n  <h4 class=\"text-center margin-bottom\">Register and submit sentences from your favourite books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books.</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephenie Meyer.</h4>\n</div>\n\n\n  <div *ngFor=\"let sentence of sentences\">\n    <h4 class=\"text-center\">\n      <span class=\"font-red\">{{ sentence.bookTitle }} </span> by {{ sentence.authorName }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br><hr><br>\n  </div>\n\n\n\n  <div class=\"btn-group btn-group-justified\" *ngIf=\"!authService.loggedIn()\" [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\">\n    <a class=\"btn btn-default\" [routerLink]=\"['/register']\">Register</a>\n    <a class = \"btn btn-default\" [routerLink]=\"['/login']\">Login</a>\n  </div>\n\n\n\n\n  <div>\n    <br>\n  </div>\n\n\n\n"
+module.exports = "\n\n<div class=\"jumbotron\">\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h3 class=\"text-center margin-bottom\">A collection of first and last sentences</h3>\n  <h4 class=\"text-center margin-bottom\">Register and submit sentences from your favourite books</h4>\n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephenie Meyer</h4>\n</div>\n\n\n  <div *ngFor=\"let sentence of sentences\">\n    <h4 class=\"text-center\">\n      <span class=\"font-red\">{{ sentence.bookTitle }} </span> by {{ sentence.authorName }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br><hr><br>\n  </div>\n\n\n\n  <div class=\"btn-group btn-group-justified\" *ngIf=\"!authService.loggedIn()\" [routerLinkActive] = \"['active']\" [routerLinkActiveOptions] = \"{exact:true}\">\n    <a class=\"btn btn-default\" [routerLink]=\"['/register']\">Register</a>\n    <a class = \"btn btn-default\" [routerLink]=\"['/login']\">Login</a>\n  </div>\n\n\n\n\n  <div>\n    <br>\n  </div>\n\n\n\n"
 
 /***/ }),
 
