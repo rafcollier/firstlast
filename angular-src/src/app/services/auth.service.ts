@@ -69,7 +69,7 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log("http request for collection length");
-    return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
+    return this.http.get('sentences/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
     //return this.http.get('http://localhost:3000/sentences/collectionLength', {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
