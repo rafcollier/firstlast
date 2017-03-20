@@ -399,16 +399,6 @@ var DisplayallComponent = (function () {
             return false;
         });
     };
-    DisplayallComponent.prototype.onRandomSubmit = function () {
-        var _this = this;
-        console.log("Calling sevice to get sentences");
-        this.authService.getSentences().subscribe(function (entries) {
-            _this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
-        }, function (err) {
-            console.log(err);
-            return false;
-        });
-    };
     DisplayallComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'app-displayall',
@@ -960,7 +950,7 @@ module.exports = "<div *ngFor=\"let sentence of sentences\">\n    <h4 class=\"te
 /***/ 688:
 /***/ (function(module, exports) {
 
-module.exports = "\n\n<div class=\"jumbotron\">\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h3 class=\"text-center margin-bottom\">A collection of first and last sentences</h3>\n  <h4 class=\"text-center margin-bottom\">Please contribute! Register and add sentences from your favourite books</h4>\n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephenie Meyer</h4>\n</div>\n\n\n<div>\n  <h4 class = \"text-center\">There are first and last sentences from <span class=\"font-red\">{{size}} </span> books in First and Last</h4><br>\n</div>\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg\" [routerLink]=\"['/displayall']\">3 random entries</a>\n <!-- <form (submit)=\"onSearchBookSubmit()\">\n    <div class=\"form-group\">\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search\">\n    </div>\n    <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n  </form> -->\n</div>\n\n\n <div>\n    <br>\n </div>\n\n\n\n"
+module.exports = "\n\n<div class=\"jumbotron\">\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h3 class=\"text-center margin-bottom\">A collection of first and last sentences</h3>\n  <h4 class=\"text-center margin-bottom\">Please contribute! Register and add sentences from your favourite books</h4>\n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephenie Meyer</h4>\n</div>\n\n<!--\n<div>\n  <h4 class = \"text-center\">There are first and last sentences from <span class=\"font-red\">{{size}} </span> books in First and Last</h4><br>\n</div>\n-->\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg\" [routerLink]=\"['/displayall']\">3 random entries</a>\n <!-- <form (submit)=\"onSearchBookSubmit()\">\n    <div class=\"form-group\">\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search\">\n    </div>\n    <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n  </form> -->\n</div>\n\n\n <div>\n    <br>\n </div>\n\n\n\n"
 
 /***/ }),
 
