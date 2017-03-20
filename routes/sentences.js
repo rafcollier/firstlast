@@ -27,9 +27,9 @@ router.post('/sentences', (req, res, next) => {
 router.get('/getAllSentences', (req, res, next) => {
 	console.log("In the backend router to get sentences");
 	//Below would find ALL sentences, not a random sample
-	//Sentences.find({}, function (err, docs) {  
+	Sentences.find({}, function (err, docs) {  
 	//Find random sample of sentences
-	Sentences.aggregate({ $sample: {size: 3}}, function (err, docs) {
+	//Sentences.aggregate({ $sample: {size: 3}}, function (err, docs) {
 		console.log("Query the database for all sentences");
 		if(!err) {
 			console.log("Here are the sentences:" + docs);	
