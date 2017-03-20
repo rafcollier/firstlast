@@ -1,7 +1,9 @@
 <div *ngFor="let sentence of sentences">
-    <h4 class="text-center">
-      <span class="font-red">{{ sentence.bookTitle }} </span> by {{ sentence.authorName }}
+    <h4 class="font-red">
+      {{ sentence.bookTitle }} 
     </h4>
+    <h4 class="font-grey">
+      by {{ sentence.authorName }} 
     <br>
     <h4>
       {{ sentence.firstSentence }}
