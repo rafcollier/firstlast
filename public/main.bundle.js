@@ -953,7 +953,7 @@ module.exports = "<p>\n  dashboard works!\n</p>\n"
 /***/ 687:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngFor=\"let sentence of sentences\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }} \n    </h4>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br><hr><br>\n  </div>\n\n  <div class=\"text-center\">\n    <form (submit)=\"onRandomSubmit()\">\n      <div class=\"form-group\">\n        <button type=\"submit\" class=\"btn btn-primary btn-lg\">3 more random entries</button>\n      </div>\n    </form> \n  </div>\n\n\n\n"
+module.exports = "<div *ngFor=\"let sentence of sentences\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }} \n    </h4>\n    <br>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br><hr><br>\n  </div>\n\n  <div class=\"text-center\">\n    <form (submit)=\"onRandomSubmit()\">\n      <div class=\"form-group\">\n        <button type=\"submit\" class=\"btn btn-primary btn-lg\">3 more random entries</button>\n      </div>\n    </form> \n  </div>\n\n\n\n"
 
 /***/ }),
 
