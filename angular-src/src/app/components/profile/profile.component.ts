@@ -16,7 +16,7 @@ export class ProfileComponent implements OnInit {
 	constructor(private authService: AuthService, private router: Router) { }
 
   	ngOnInit() {
-      console.log("Calling sevice to fetch profile");
+      console.log("Calling service to fetch profile");
   		this.authService.getProfile().subscribe(profile => {
   			this.user = profile.user;
         console.log("Profile returned from server for: " + this.user);

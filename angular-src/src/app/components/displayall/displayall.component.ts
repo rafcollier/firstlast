@@ -26,16 +26,16 @@ export class DisplayallComponent implements OnInit {
   	}
 
 
-    //onRandomSubmit() {
-     // console.log("Calling sevice to get sentences");
-     // this.authService.getSentences().subscribe(entries => {
-     //   this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
-     // },
-     // err => {
-     //   console.log(err);
-     //   return false;
-     // });
+    onRandomSubmit() {
+      console.log("Calling sevice to get sentences");
+      this.authService.getSentences().subscribe(entries => {
+        this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
+      },
+      err => {
+        console.log(err);
+        return false;
+      });
 
-    //}
+    }
 
 }
