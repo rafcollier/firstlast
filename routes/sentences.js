@@ -24,9 +24,12 @@ router.post('/sentences', (req, res, next) => {
 });
 
 //Get sentences to display on the homepage
-router.get('/sentences', (req, res, next) => {
+router.get('/getAllSentences', (req, res, next) => {
 	console.log("In the backend router to get sentences");
-	Sentences.find({}, function (err, docs) {
+	//Below would find ALL sentences, not a random sample
+	//Sentences.find({}, function (err, docs) {  
+	//Find random sample of sentences
+	Sentences.aggregate({ $sample: {size: 3}}, function (err, docs) {
 		console.log("Query the database for all sentences");
 		if(!err) {
 			console.log("Here are the sentences:" + docs);	
@@ -34,6 +37,34 @@ router.get('/sentences', (req, res, next) => {
 		} else {throw err;}
 	});
 });
+
+//Get number of books in the collection
+router.get('/collectionLength', (req, res, next) => {
+	console.log("In the backend router to get collection length");
+	Sentences.count({}, function (err, docs) {
+		console.log("Query database for number of books in collection");
+		if(!err) {
+			console.log("Here is collection length:" + docs);	
+			res.json(docs);
+		} else {throw err;}
+	});
+});
+
+//Search for book by title
+//router.get('/searchBook', (req, res, next) => {
+	//let title = req.body;
+	//console.log("In the backend router to search book by title");
+    //Sentences.getSentencesByBookName(title, (err, book) => {
+	//	console.log("returned from database request to search for book by title");
+	//	if(err) throw err;
+	//	if(!book) {
+	//		return res.json({success: false, msg: 'That book is not in the collection'});
+	//	}
+//
+//		res.json(book);
+//
+//	});
+//});
 
 
 

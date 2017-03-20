@@ -19,11 +19,13 @@ import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SentencesComponent } from './components/sentences/sentences.component';
+import { DisplayallComponent } from './components/displayall/displayall.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'displayall', component: DisplayallComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: 'sentences', component: SentencesComponent, canActivate:[AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate:[AuthGuard]}
@@ -39,7 +41,8 @@ const appRoutes: Routes = [
     HomeComponent,
     DashboardComponent,
     ProfileComponent,
-    SentencesComponent
+    SentencesComponent,
+    DisplayallComponent
   ],
   imports: [
     BrowserModule,

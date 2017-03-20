@@ -11,6 +11,7 @@ export class AuthService {
   authToken: any;
   user: any;
   sentences: any;
+  title: any;
 
   //inject http into constructor
   constructor(private http: Http) { }
@@ -55,12 +56,30 @@ export class AuthService {
       .map(res => res.json());
   } 
 
+ // getSearchResult(title) {
+ //   let headers = new Headers();
+  //  headers.append('Content-Type', 'application/json');
+  //  console.log("http request for search on book title");
+  //  //return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
+  //  return this.http.get('http://localhost:3000/sentences/searchBook', title, {headers: headers}) //add this for local dev: http://localhost:3000/
+  //    .map(res => res.json());
+  //} 
+
+  getCollectionLength() {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    console.log("http request for collection length");
+    return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
+    //return this.http.get('http://localhost:3000/sentences/collectionLength', {headers: headers}) //add this for local dev: http://localhost:3000/
+      .map(res => res.json());
+  } 
+
   getSentences() {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log("sending request for sentences to server");
     return this.http.get('sentences/sentences', {headers: headers}) //add this for local dev: http://localhost:3000/
-    //return this.http.get('http://localhost:3000/sentences/sentences', {headers: headers}) //add this for local dev: http://localhost:3000/
+    //return this.http.get('http://localhost:3000/sentences/getAllSentences', {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
 

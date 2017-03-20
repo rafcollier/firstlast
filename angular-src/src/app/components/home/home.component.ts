@@ -8,19 +8,47 @@ import {Router} from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-	sentences: [Object]; //getting an array of objects from the database
+  size: Object;
+  title: String; 
 
   constructor(private authService: AuthService, private router: Router) { }
 
   	ngOnInit() {
-      console.log("Calling sevice to get sentences");
-  		this.authService.getSentences().subscribe(entries => {
-  			this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
-  		},
-  		err => {
-  			console.log(err);
-  			return false;
-  		});
+
+      console.log("Calling sevice to get collection size");
+      this.authService.getCollectionLength().subscribe(length => {
+        this.size = length; //the database entries are an array of objects//now available for *ngFor on home.html
+        console.log(this.size);
+        console.log(length);
+      },
+      err => {
+        console.log(err);
+        return false;
+      });
+
   	}
+
+
+    //onSearchBookSubmit(){
+
+    //const title = this.title;
+    //console.log("Searching database for: " + title);
+
+    //this.authService.getSearchResult(title).subscribe(data => {
+    //  console.log("searching for book by title");
+    //  if (data.success) {
+    //    this.flashMessage.show('You are logged in', {cssClass: 'alert-success', timeout: 5000});
+    //    this.router.navigate(['/sentences']);
+
+    //  } else {
+    //    this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
+    //    this.router.navigate(['/login']);
+
+    //  }
+
+
+    //});
+
+  //}
 
 }

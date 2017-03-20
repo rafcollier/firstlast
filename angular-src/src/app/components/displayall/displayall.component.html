@@ -1,0 +1,25 @@
+<div *ngFor="let sentence of sentences">
+    <h4 class="text-center">
+      <span class="font-red">{{ sentence.bookTitle }} </span> by {{ sentence.authorName }}
+    </h4>
+    <br>
+    <h4>
+      {{ sentence.firstSentence }}
+    </h4>
+    <br>
+    <h4>
+      {{ sentence.lastSentence }}
+    </h4>
+    <br><hr><br>
+  </div>
+
+  <div class="text-center">
+    <form (submit)="onRandomSubmit()">
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-lg">3 more random entries</button>
+      </div>
+    </form> 
+  </div>
+
+
+
