@@ -88,6 +88,7 @@ export class QuizComponent implements OnInit {
     }
 
     onResetQuiz() {
+      this.streak=0;
       this.ngOnInit();
     }
 

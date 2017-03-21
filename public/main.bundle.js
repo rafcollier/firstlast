@@ -751,6 +751,7 @@ var QuizComponent = (function () {
         }
     };
     QuizComponent.prototype.onResetQuiz = function () {
+        this.streak = 0;
         this.ngOnInit();
     };
     QuizComponent.prototype.onRandomSubmit = function () {
