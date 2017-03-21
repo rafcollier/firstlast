@@ -5,3 +5,10 @@
 .font-grey {
 	color:grey;
 }
+
+.margin-bottom {
+  margin-bottom:15px;}
+
+.btn:focus {
+  outline: none;
+}
