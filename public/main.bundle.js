@@ -694,7 +694,6 @@ var QuizComponent = (function () {
         if (this.streak === NaN || this.streak === undefined) {
             this.streak = 0;
         }
-        console.log("this streak is " + this.streak);
         console.log("Calling sevice to get sentences");
         this.authService.getSentences().subscribe(function (entries) {
             _this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
@@ -716,54 +715,44 @@ var QuizComponent = (function () {
     };
     QuizComponent.prototype.onClickOne = function () {
         if (this.index0 === this.sentenceIndex) {
-            this.flashMessage.show('Correct! Try another', { cssClass: 'alert-success', timeout: 1000 });
-            this.streak++;
-            this.ngOnInit();
+            this.correctAnswer();
         }
         else {
-            this.flashMessage.show('Sorry, guess again', { cssClass: 'alert-danger', timeout: 1000 });
-            this.streak = 0;
-            return false;
+            this.incorrectAnswer();
         }
     };
     QuizComponent.prototype.onClickTwo = function () {
         if (this.index1 === this.sentenceIndex) {
-            this.flashMessage.show('Correct! Try another', { cssClass: 'alert-success', timeout: 1000 });
-            this.streak++;
-            this.ngOnInit();
+            this.correctAnswer();
         }
         else {
-            this.streak = 0;
-            this.flashMessage.show('Sorry, guess again', { cssClass: 'alert-danger', timeout: 1000 });
-            return false;
+            this.incorrectAnswer();
         }
     };
     QuizComponent.prototype.onClickThree = function () {
         if (this.index2 === this.sentenceIndex) {
-            this.flashMessage.show('Correct! Try another', { cssClass: 'alert-success', timeout: 1000 });
-            this.streak++;
-            this.ngOnInit();
+            this.correctAnswer();
         }
         else {
-            this.streak = 0;
-            this.flashMessage.show('Sorry, guess again', { cssClass: 'alert-danger', timeout: 1000 });
-            return false;
+            this.incorrectAnswer();
         }
+    };
+    QuizComponent.prototype.incorrectAnswer = function () {
+        this.flashMessage.show('Sorry, guess again', { cssClass: 'alert-danger', timeout: 1000 });
+        this.streak = 0;
+        window.scroll(0, 0);
+        return false;
+    };
+    QuizComponent.prototype.correctAnswer = function () {
+        this.flashMessage.show('Correct! Try another', { cssClass: 'alert-success', timeout: 1000 });
+        this.streak++;
+        window.scroll(0, 0);
+        this.ngOnInit();
     };
     QuizComponent.prototype.onResetQuiz = function () {
         this.streak = 0;
+        window.scroll(0, 0);
         this.ngOnInit();
-    };
-    QuizComponent.prototype.onRandomSubmit = function () {
-        var _this = this;
-        console.log("Calling sevice to get sentences");
-        this.authService.getSentences().subscribe(function (entries) {
-            _this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
-            window.scroll(0, 0);
-        }, function (err) {
-            console.log(err);
-            return false;
-        });
     };
     QuizComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
