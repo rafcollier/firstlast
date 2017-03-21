@@ -16,9 +16,9 @@
 </div><br>
 
 <div *ngIf="sentences" class="text-center">
-  <button (click)="onClickOne()" class="btn btn-default btn-lg margin-bottom">{{sentences[index0].bookTitle}}</button>
-  <button (click)="onClickTwo()" class="btn btn-default btn-lg margin-bottom">{{sentences[index1].bookTitle}}</button>
-  <button (click)="onClickThree()" class="btn btn-default btn-lg margin-bottom">{{sentences[index2].bookTitle}}</button>
+  <button (click)="onClickOne()" class="btn btn-default btn-lg margin-bottom" onclick="this.blur();">{{sentences[index0].bookTitle}}</button>
+  <button (click)="onClickTwo()" class="btn btn-default btn-lg margin-bottom" onclick="this.blur();">{{sentences[index1].bookTitle}}</button>
+  <button (click)="onClickThree()" class="btn btn-default btn-lg margin-bottom" onclick="this.blur();">{{sentences[index2].bookTitle}}</button>
 </div>
 <br>
 
