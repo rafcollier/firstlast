@@ -20,11 +20,13 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SentencesComponent } from './components/sentences/sentences.component';
 import { DisplayallComponent } from './components/displayall/displayall.component';
+import { QuizComponent } from './components/quiz/quiz.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'quiz', component: QuizComponent},
   {path: 'displayall', component: DisplayallComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: 'sentences', component: SentencesComponent, canActivate:[AuthGuard]},
@@ -42,7 +44,9 @@ const appRoutes: Routes = [
     DashboardComponent,
     ProfileComponent,
     SentencesComponent,
-    DisplayallComponent
+    DisplayallComponent,
+    QuizComponent,
+    QuizComponent
   ],
   imports: [
     BrowserModule,

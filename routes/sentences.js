@@ -52,6 +52,7 @@ router.get('/collectionLength', (req, res, next) => {
 
 //Search for book by title
 //router.get('/searchBook', (req, res, next) => {
+	//console.log(req.body);
 	//let title = req.body;
 	//console.log("In the backend router to search book by title");
     //Sentences.getSentencesByBookName(title, (err, book) => {

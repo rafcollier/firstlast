@@ -1,0 +1,28 @@
+
+<h3 class="text-center margin-bottom">These first and last sentences are from which book?</h3><br>
+
+
+<div *ngIf="sentences">
+    <h4><hr>
+      {{ sentences[sentenceIndex].firstSentence }} 
+    </h4>
+    <h4>
+       {{ sentences[sentenceIndex].lastSentence }} 
+    </h4><hr>
+</div><br>
+
+<div *ngIf="streak != 0 || steak != NaN">
+  <h4 class = "text-center">You have answered correctly <span class="font-red"> {{streak}} </span> times in a row</h4><br>
+</div><br>
+
+<div *ngIf="sentences" class="text-center">
+  <button (click)="onClickOne()" class="btn btn-default btn-lg" onclick="this.blur();">{{sentences[index0].bookTitle}}</button>
+  <button (click)="onClickTwo()" class="btn btn-default btn-lg" onclick="this.blur();">{{sentences[index1].bookTitle}}</button>
+  <button (click)="onClickThree()" class="btn btn-default btn-lg" onclick="this.blur();">{{sentences[index2].bookTitle}}</button>
+</div>
+<br>
+
+
+  <div class="text-center">
+    <button (click)="onResetQuiz()" class="btn btn-primary btn-lg">Try another quiz</button>
+  </div>

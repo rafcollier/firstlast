@@ -56,13 +56,13 @@ export class AuthService {
       .map(res => res.json());
   } 
 
- // getSearchResult(title) {
- //   let headers = new Headers();
+  //getSearchResult(title) {
+   // let headers = new Headers();
   //  headers.append('Content-Type', 'application/json');
-  //  console.log("http request for search on book title");
-  //  //return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
-  //  return this.http.get('http://localhost:3000/sentences/searchBook', title, {headers: headers}) //add this for local dev: http://localhost:3000/
-  //    .map(res => res.json());
+ //   console.log("http request for search on book title");
+    //return this.http.get('sentences/searchBook', {headers: headers}) //add this for local dev: http://localhost:3000/
+//    return this.http.get('http://localhost:3000/sentences/searchBook', {params: {"bookTitle": "title"}, headers: headers}) //add this for local dev: http://localhost:3000/
+ //     .map(res => res.json());
   //} 
 
   getCollectionLength() {

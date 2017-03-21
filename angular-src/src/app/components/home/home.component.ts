@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {FlashMessagesService} from 'angular2-flash-messages';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,11 @@ export class HomeComponent implements OnInit {
   size: Object;
   title: String; 
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(
+      private flashMessage: FlashMessagesService,
+      private authService: AuthService,
+      private router: Router
+    ) { }
 
   	ngOnInit() {
 
@@ -31,23 +37,25 @@ export class HomeComponent implements OnInit {
 
     //onSearchBookSubmit(){
 
-    //const title = this.title;
-    //console.log("Searching database for: " + title);
+   // const searchTitle = {
+   //   title: this.title
+   // }
+   // console.log("Searching database for: " + searchTitle);
 
-    //this.authService.getSearchResult(title).subscribe(data => {
-    //  console.log("searching for book by title");
-    //  if (data.success) {
-    //    this.flashMessage.show('You are logged in', {cssClass: 'alert-success', timeout: 5000});
-    //    this.router.navigate(['/sentences']);
+   // this.authService.getSearchResult(searchTitle).subscribe(data => {
+   //   console.log("searching for book by title");
+   //   if (data.success) {
+   //     this.title="";
+   //     this.router.navigate(['/searchResult']);
 
-    //  } else {
-    //    this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
-    //    this.router.navigate(['/login']);
+   //   } else {
+   //     this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
+   //     this.router.navigate([""]);
 
-    //  }
+   //   }
 
 
-    //});
+   // });
 
   //}
 
