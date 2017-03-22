@@ -5,7 +5,7 @@
 <div *ngIf="sentences">
     <h4><hr>
       {{ sentences[sentenceIndex].firstSentence }} 
-    </h4>
+    </h4><br>
     <h4>
        {{ sentences[sentenceIndex].lastSentence }} 
     </h4><hr>
@@ -25,4 +25,4 @@
 
   <div class="text-center">
     <button (click)="onResetQuiz()" class="btn btn-primary btn-lg">Try another quiz</button>
-  </div>
+  </div><br>

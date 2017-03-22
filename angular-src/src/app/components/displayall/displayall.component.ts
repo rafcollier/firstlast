@@ -9,6 +9,8 @@ import {Router} from '@angular/router';
 })
 export class DisplayallComponent implements OnInit {
   sentences: [Object]; //getting an array of objects from the database
+  bookName: String;
+  likes: Number;
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -17,6 +19,9 @@ export class DisplayallComponent implements OnInit {
       console.log("Calling sevice to get sentences");
   		this.authService.getSentences().subscribe(entries => {
   			this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
+        this.bookName = entries[0].bookTitle;
+        console.log(this.bookName);
+        console.log(entries[0].bookTitle);
   		},
   		err => {
   			console.log(err);
@@ -24,6 +29,12 @@ export class DisplayallComponent implements OnInit {
   		});
 
   	}
+
+    onLikeClick(sentence) {
+      sentence.likes++;
+      console.log("Here are the likes" + sentence.likes);
+
+    }
 
 
     onRandomSubmit() {

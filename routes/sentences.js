@@ -8,11 +8,15 @@ const Sentences = require('../models/sentences');
 
 router.post('/sentences', (req, res, next) => {
 	let newSentences = new Sentences({
+		likes: req.body.likes,
+		enteredBy: req.body.enteredBy,
 		bookTitle:  req.body.bookTitle,
 		authorName: req.body.authorName,
 		firstSentence: req.body.firstSentence,
 		lastSentence: req.body.lastSentence
 	});
+
+	console.log("Entering sentences for user: " + newSentences.enteredBy);
 
 	Sentences.addSentences(newSentences, (err, sentences) => {
 		if(err) {

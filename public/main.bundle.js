@@ -138,7 +138,8 @@ var AuthService = (function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
         console.log("http request to check login credentials for " + user.username);
-        return this.http.post('users/authenticate', user, { headers: headers }) //add this for local dev: http://localhost:3000/
+        //return this.http.post('users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
+        return this.http.post('http://localhost:3000/users/authenticate', user, { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.getProfile = function () {
@@ -399,10 +400,17 @@ var DisplayallComponent = (function () {
         console.log("Calling sevice to get sentences");
         this.authService.getSentences().subscribe(function (entries) {
             _this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
+            _this.bookName = entries[0].bookTitle;
+            console.log(_this.bookName);
+            console.log(entries[0].bookTitle);
         }, function (err) {
             console.log(err);
             return false;
         });
+    };
+    DisplayallComponent.prototype.onLikeClick = function (sentence) {
+        sentence.likes++;
+        console.log("Here are the likes" + sentence.likes);
     };
     DisplayallComponent.prototype.onRandomSubmit = function () {
         var _this = this;
@@ -883,15 +891,28 @@ var SentencesComponent = (function () {
         this.router = router;
     }
     SentencesComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        console.log("Calling service to fetch profile");
+        this.authService.getProfile().subscribe(function (profile) {
+            _this.enteredBy = profile.user.username;
+            console.log("Profile returned from server for: " + _this.enteredBy);
+        }, function (err) {
+            console.log(err);
+            return false;
+        });
     };
     SentencesComponent.prototype.onSentencesSubmit = function () {
         var _this = this;
+        this.likes = 0;
         var sentences = {
+            likes: this.likes,
+            enteredBy: this.enteredBy,
             bookTitle: this.bookTitle,
             authorName: this.authorName,
             firstSentence: this.firstSentence,
             lastSentence: this.lastSentence
         };
+        console.log("In sentence submit with user :" + this.enteredBy + "with likes of:");
         //Required fields
         if (!this.validateService.validateSentences(sentences)) {
             this.flashMessage.show('Please fill in all fields', { cssClass: 'alert-danger', timeout: 3000 });
@@ -1009,7 +1030,7 @@ module.exports = ""
 /***/ 679:
 /***/ (function(module, exports) {
 
-module.exports = ".font-red {\n\tcolor:red;\n}\n\n.font-grey {\n\tcolor:grey;\n}"
+module.exports = ".font-red {\n\tcolor:red;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}"
 
 /***/ }),
 
@@ -1079,7 +1100,7 @@ module.exports = "<p>\n  dashboard works!\n</p>\n"
 /***/ 689:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngFor=\"let sentence of sentences\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }} \n    </h4>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br><hr><br>\n  </div>\n\n  <div class=\"text-center\">\n    <form (submit)=\"onRandomSubmit()\">\n      <div class=\"form-group\">\n        <button type=\"submit\" class=\"btn btn-primary btn-lg\">3 more random entries</button>\n      </div>\n    </form> \n  </div>\n\n\n\n"
+module.exports = "<div *ngFor=\"let sentence of sentences; let i = index\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }}\n    </h4>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br>\n    \n    <div class=\"row\">\n      <div class = \"col-sm-3\">\n        <div class=\"the-icons\">\n          <p><span (click)=\"onLikeClick(sentence)\" class=\"glyphicon glyphicon-thumbs-up\"></span> {{ sentence.likes }}</p>\n        </div>\n      </div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3 font-lightgrey\"><p>entered by: {{sentence.enteredBy}}</div>\n    </div>\n\n    <hr><br>\n  </div>\n\n  <div class=\"text-center\">\n    <form (submit)=\"onRandomSubmit()\">\n      <div class=\"form-group\">\n        <button type=\"submit\" class=\"btn btn-primary btn-lg\">3 more random entries</button>\n      </div>\n    </form> \n  </div>\n\n\n\n"
 
 /***/ }),
 
@@ -1114,7 +1135,7 @@ module.exports = "<div *ngIf=\"user\">\n\t<h2 class = \"page-header\">{{user.nam
 /***/ 694:
 /***/ (function(module, exports) {
 
-module.exports = "\n<h3 class=\"text-center margin-bottom\">These first and last sentences are from which book?</h3><br>\n\n\n<div *ngIf=\"sentences\">\n    <h4><hr>\n      {{ sentences[sentenceIndex].firstSentence }} \n    </h4>\n    <h4>\n       {{ sentences[sentenceIndex].lastSentence }} \n    </h4><hr>\n</div><br>\n\n<div *ngIf=\"streak != 0 || steak != NaN\">\n  <h4 class = \"text-center\">You have answered correctly <span class=\"font-red\"> {{streak}} </span> times in a row</h4><br>\n</div><br>\n\n<div *ngIf=\"sentences\" class=\"text-center\">\n  <button (click)=\"onClickOne()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index0].bookTitle}}</button>\n  <button (click)=\"onClickTwo()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index1].bookTitle}}</button>\n  <button (click)=\"onClickThree()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index2].bookTitle}}</button>\n</div>\n<br>\n\n\n  <div class=\"text-center\">\n    <button (click)=\"onResetQuiz()\" class=\"btn btn-primary btn-lg\">Try another quiz</button>\n  </div>"
+module.exports = "\n<h3 class=\"text-center margin-bottom\">These first and last sentences are from which book?</h3><br>\n\n\n<div *ngIf=\"sentences\">\n    <h4><hr>\n      {{ sentences[sentenceIndex].firstSentence }} \n    </h4><br>\n    <h4>\n       {{ sentences[sentenceIndex].lastSentence }} \n    </h4><hr>\n</div><br>\n\n<div *ngIf=\"streak != 0 || steak != NaN\">\n  <h4 class = \"text-center\">You have answered correctly <span class=\"font-red\"> {{streak}} </span> times in a row</h4><br>\n</div><br>\n\n<div *ngIf=\"sentences\" class=\"text-center\">\n  <button (click)=\"onClickOne()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index0].bookTitle}}</button>\n  <button (click)=\"onClickTwo()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index1].bookTitle}}</button>\n  <button (click)=\"onClickThree()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index2].bookTitle}}</button>\n</div>\n<br>\n\n\n  <div class=\"text-center\">\n    <button (click)=\"onResetQuiz()\" class=\"btn btn-primary btn-lg\">Try another quiz</button>\n  </div><br>"
 
 /***/ }),
 

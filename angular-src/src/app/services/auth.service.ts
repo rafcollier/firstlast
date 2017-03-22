@@ -40,8 +40,8 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log("http request to check login credentials for " + user.username);
-    return this.http.post('users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
-    //return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
+    //return this.http.post('users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
+    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   }
 

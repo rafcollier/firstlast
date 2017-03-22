@@ -4,6 +4,7 @@ import {ValidateService} from '../../services/validate.service';
 import {FlashMessagesService} from 'angular2-flash-messages';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+import { tokenNotExpired } from 'angular2-jwt';
 
 @Component({
   selector: 'app-sentences',
@@ -11,10 +12,13 @@ import {Router} from '@angular/router';
   styleUrls: ['./sentences.component.css']
 })
 export class SentencesComponent implements OnInit {
+  likes: Number;
+  enteredBy: String;
   bookTitle: String;
   authorName: String;
   firstSentence: String;
   lastSentence: String;
+  
 
 
 
@@ -26,15 +30,32 @@ export class SentencesComponent implements OnInit {
   	) { }
 
   ngOnInit() {
+
+    console.log("Calling service to fetch profile");
+    this.authService.getProfile().subscribe(profile => {
+      this.enteredBy = profile.user.username;
+      console.log("Profile returned from server for: " + this.enteredBy);
+    },
+    err => {
+      console.log(err);
+      return false;
+    });
   }
 
 onSentencesSubmit(){
+
+    this.likes = 0;
+
     const sentences = {
+      likes: this.likes,
+      enteredBy: this.enteredBy,
       bookTitle: this.bookTitle,
       authorName: this.authorName,
       firstSentence: this.firstSentence,
       lastSentence: this.lastSentence
     }
+
+    console.log("In sentence submit with user :" + this.enteredBy + "with likes of:");
 
     //Required fields
     if(!this.validateService.validateSentences(sentences)) {

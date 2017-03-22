@@ -4,6 +4,13 @@ const config = require('../config/database');
 
 //User Schema
 const SentenceSchema = mongoose.Schema({
+	
+	likes: {
+		type: Number
+	},
+	enteredBy: {
+		type: String
+	},
 	bookTitle: {
 		type: String
 	},
