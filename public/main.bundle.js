@@ -138,8 +138,7 @@ var AuthService = (function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
         console.log("http request to check login credentials for " + user.username);
-        //return this.http.post('users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
-        return this.http.post('http://localhost:3000/users/authenticate', user, { headers: headers }) //add this for local dev: http://localhost:3000/
+        return this.http.post('users/authenticate', user, { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.getProfile = function () {
