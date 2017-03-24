@@ -55,22 +55,18 @@ router.get('/collectionLength', (req, res, next) => {
 });
 
 //Search for book by title
-//router.get('/searchBook', (req, res, next) => {
-	//console.log(req.body);
-	//let title = req.body;
-	//console.log("In the backend router to search book by title");
-    //Sentences.getSentencesByBookName(title, (err, book) => {
-	//	console.log("returned from database request to search for book by title");
-	//	if(err) throw err;
-	//	if(!book) {
-	//		return res.json({success: false, msg: 'That book is not in the collection'});
-	//	}
-//
-//		res.json(book);
-//
-//	});
-//});
+router.get('/searchBook', (req, res, next) => {
+	console.log("In the backend router to search book by title");
+	console.log(req.query);
 
+	//const query = {bookTitle: bookTitle}
+	Sentences.findOne(req.query, function(err, docs) {
+		if(!err) {
+			res.json(docs);
+		} else {throw err;}
+	});
+});
+	
 
 
 module.exports = router;

@@ -21,10 +21,12 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { SentencesComponent } from './components/sentences/sentences.component';
 import { DisplayallComponent } from './components/displayall/displayall.component';
 import { QuizComponent } from './components/quiz/quiz.component';
+import { DummyComponent } from './components/dummy/dummy.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'dummy', component: DummyComponent},
   {path: 'login', component: LoginComponent},
   {path: 'quiz', component: QuizComponent},
   {path: 'displayall', component: DisplayallComponent},
@@ -46,7 +48,7 @@ const appRoutes: Routes = [
     SentencesComponent,
     DisplayallComponent,
     QuizComponent,
-    QuizComponent
+    DummyComponent
   ],
   imports: [
     BrowserModule,

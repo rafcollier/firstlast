@@ -1,5 +1,5 @@
 
-<h3 class="text-center margin-bottom">These first and last sentences are from which book?</h3><br>
+<h3 class="text-center margin-bottom">These sentences are from which book?</h3><br>
 
 
 <div *ngIf="sentences">
@@ -12,7 +12,7 @@
 </div><br>
 
 <div *ngIf="streak != 0 || steak != NaN">
-  <h4 class = "text-center">You have answered correctly <span class="font-red"> {{streak}} </span> times in a row</h4><br>
+  <h4 class = "text-center"> <span class="font-red"> {{streak}} </span> correct answers in a row</h4><br>
 </div><br>
 
 <div *ngIf="sentences" class="text-center">

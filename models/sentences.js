@@ -34,8 +34,8 @@ module.exports.getSentencesById = function(id, callback) {
 	Sentences.findById(id, callback);
 }
 
-module.exports.getSentencesByBookName = function(bookName, callback) {
-	const query = {bookName: bookName}
+module.exports.getSentencesByBookTitle = function(bookTitle, callback) {
+	const query = {bookTitle: bookTitle}
 	Sentences.findOne(query, callback);
 }
 

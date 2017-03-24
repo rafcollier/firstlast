@@ -34,4 +34,11 @@ export class NavbarComponent implements OnInit {
     return false;
   }
 
+  onRefreshHome(){
+    console.log("Refresh Homepage");
+    this.router.navigateByUrl('/dummy', {skipLocationChange:true});
+    setTimeout(()=>this.router.navigate(['']));
+    return false;
+  }
+
 }

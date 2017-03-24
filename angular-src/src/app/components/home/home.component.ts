@@ -12,6 +12,8 @@ import {Router} from '@angular/router';
 export class HomeComponent implements OnInit {
   size: Object;
   title: String; 
+  showSearch: Boolean; 
+  sentence: Object;
 
   constructor(
       private flashMessage: FlashMessagesService,
@@ -20,6 +22,8 @@ export class HomeComponent implements OnInit {
     ) { }
 
   	ngOnInit() {
+
+      this.showSearch = false; 
 
       console.log("Calling sevice to get collection size");
       this.authService.getCollectionLength().subscribe(length => {
@@ -35,28 +39,32 @@ export class HomeComponent implements OnInit {
   	}
 
 
-    //onSearchBookSubmit(){
+  onSearchBookSubmit(){
 
-   // const searchTitle = {
-   //   title: this.title
-   // }
-   // console.log("Searching database for: " + searchTitle);
+    const searchTitle = {
+      title: this.title
+    }
+    console.log("Searching database for: " + searchTitle.title);
 
-   // this.authService.getSearchResult(searchTitle).subscribe(data => {
-   //   console.log("searching for book by title");
-   //   if (data.success) {
-   //     this.title="";
-   //     this.router.navigate(['/searchResult']);
+    this.authService.getSearchResult(searchTitle.title).subscribe(data => {
+      console.log("Return from server after search request for book by title");
+      console.log(data);
+      this.title="";
+      if(data != null) {
+        this.showSearch = true;
+        this.sentence = data;
+        console.log("found the title");
+      } else {
+        this.flashMessage.show('Book not found', {cssClass: 'alert-danger', timeout: 3000});
+      }
+      //this.router.navigate(['/searchResult']);
 
-   //   } else {
-   //     this.flashMessage.show(data.msg, {cssClass: 'alert-danger', timeout: 5000});
-   //     this.router.navigate([""]);
+      }, 
+      err => {
+        console.log(err);
+        return false;
+    });
 
-   //   }
-
-
-   // });
-
-  //}
+  }
 
 }
