@@ -4,3 +4,5 @@ module.exports = {
 	secret: 'thebigsecret'
 }
 
+//dbuser: heroku_zrw6q2jc
+//dbpassword: ompdea0o2sd5f2c7al0tbcpcnv
