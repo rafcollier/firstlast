@@ -119,7 +119,7 @@ var AuthService = (function () {
     AuthService.prototype.registerUser = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        console.log("http request to register user with user: " + user.username);
+        //console.log("http request to register user with user: " + user.username);
         //return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) //for local development
         return this.http.post('users/register', user, { headers: headers })
             .map(function (res) { return res.json(); });
@@ -169,7 +169,7 @@ var AuthService = (function () {
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]();
         options.headers = headers;
         console.log("http request to increment likes");
-        return this.http.get('sentences/searchBook', options) //add this for local dev: http://localhost:3000/
+        return this.http.put('sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.getCollectionLength = function () {

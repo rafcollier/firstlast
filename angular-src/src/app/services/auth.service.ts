@@ -19,7 +19,7 @@ export class AuthService {
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    console.log("http request to register user with user: " + user.username);
+    //console.log("http request to register user with user: " + user.username);
     //return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) //for local development
     return this.http.post('users/register', user, {headers: headers})
       .map(res => res.json());
@@ -77,7 +77,7 @@ export class AuthService {
     let options = new RequestOptions();
     options.headers = headers;
     console.log("http request to increment likes");
-    return this.http.get('sentences/searchBook', options) //add this for local dev: http://localhost:3000/
+    return this.http.put('sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
     //return this.http.put('http://localhost:3000/sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
