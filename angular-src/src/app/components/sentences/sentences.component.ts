@@ -50,6 +50,7 @@ onSentencesSubmit(){
       likes: this.likes,
       enteredBy: this.enteredBy,
       bookTitle: this.bookTitle,
+      searchTitle: this.bookTitle.toLowerCase(),
       authorName: this.authorName,
       firstSentence: this.firstSentence,
       lastSentence: this.lastSentence

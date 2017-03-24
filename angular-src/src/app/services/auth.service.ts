@@ -60,7 +60,7 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     let params = new URLSearchParams();
-    params.set('bookTitle', title);
+    params.set('searchTitle', title);
     let options = new RequestOptions();
     options.headers = headers;
     options.search = params;
@@ -68,7 +68,19 @@ export class AuthService {
     return this.http.get('sentences/searchBook', options) //add this for local dev: http://localhost:3000/
     //return this.http.get('http://localhost:3000/sentences/searchBook', options) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
- } 
+  } 
+
+  incrementLikes(sentence) {
+    let body = JSON.stringify(sentence);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let options = new RequestOptions();
+    options.headers = headers;
+    console.log("http request to increment likes");
+    return this.http.get('sentences/searchBook', options) //add this for local dev: http://localhost:3000/
+    //return this.http.put('http://localhost:3000/sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
+      .map(res => res.json());
+  } 
 
   getCollectionLength() {
     let headers = new Headers();

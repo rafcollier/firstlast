@@ -11,6 +11,7 @@ router.post('/sentences', (req, res, next) => {
 		likes: req.body.likes,
 		enteredBy: req.body.enteredBy,
 		bookTitle:  req.body.bookTitle,
+		searchTitle: req.body.searchTitle,
 		authorName: req.body.authorName,
 		firstSentence: req.body.firstSentence,
 		lastSentence: req.body.lastSentence
@@ -66,6 +67,21 @@ router.get('/searchBook', (req, res, next) => {
 		} else {throw err;}
 	});
 });
+
+//Increment likes for book found by ID
+router.put('/incrementLikes', (req, res, next) => {
+	console.log("In the backend router to increment likes");
+	//console.log(req.body);
+	Sentences.incrementLikes(req.body, (err, docs) => {
+      if(err) throw err;
+	  else {
+		console.log(docs);
+		res.json(docs);
+		}
+	})
+});
+
+
 	
 
 

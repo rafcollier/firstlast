@@ -21,7 +21,7 @@ export class DisplayallComponent implements OnInit {
   			this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
         this.bookName = entries[0].bookTitle;
         console.log(this.bookName);
-        console.log(entries[0].bookTitle);
+        console.log(entries[0]._id);
   		},
   		err => {
   			console.log(err);
@@ -30,24 +30,23 @@ export class DisplayallComponent implements OnInit {
 
   	}
 
-    onLikeClick(sentence) {
-      sentence.likes++;
+    onLikeClick(sentence, index) {
       console.log("Here are the likes" + sentence.likes);
-
-    }
-
-
-    onRandomSubmit() {
-      console.log("Calling sevice to get sentences");
-      this.authService.getSentences().subscribe(entries => {
-        this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
-        window.scroll(0, 0);
+      this.authService.incrementLikes(sentence).subscribe(data => {
+        console.log(data);
+        this.sentences[index] = data;
+        console.log(this.sentences[index]);
       },
       err => {
         console.log(err);
         return false;
       });
+    }
 
+
+
+  onRandomSubmit() {
+    this.ngOnInit();
     }
 
 }

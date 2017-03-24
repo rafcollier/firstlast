@@ -154,11 +154,21 @@ var AuthService = (function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
         var params = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["URLSearchParams"]();
-        params.set('bookTitle', title);
+        params.set('searchTitle', title);
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]();
         options.headers = headers;
         options.search = params;
         console.log("http request for search on book title");
+        return this.http.get('sentences/searchBook', options) //add this for local dev: http://localhost:3000/
+            .map(function (res) { return res.json(); });
+    };
+    AuthService.prototype.incrementLikes = function (sentence) {
+        var body = JSON.stringify(sentence);
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
+        headers.append('Content-Type', 'application/json');
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]();
+        options.headers = headers;
+        console.log("http request to increment likes");
         return this.http.get('sentences/searchBook', options) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
@@ -408,26 +418,26 @@ var DisplayallComponent = (function () {
             _this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
             _this.bookName = entries[0].bookTitle;
             console.log(_this.bookName);
-            console.log(entries[0].bookTitle);
+            console.log(entries[0]._id);
         }, function (err) {
             console.log(err);
             return false;
         });
     };
-    DisplayallComponent.prototype.onLikeClick = function (sentence) {
-        sentence.likes++;
+    DisplayallComponent.prototype.onLikeClick = function (sentence, index) {
+        var _this = this;
         console.log("Here are the likes" + sentence.likes);
+        this.authService.incrementLikes(sentence).subscribe(function (data) {
+            console.log(data);
+            _this.sentences[index] = data;
+            console.log(_this.sentences[index]);
+        }, function (err) {
+            console.log(err);
+            return false;
+        });
     };
     DisplayallComponent.prototype.onRandomSubmit = function () {
-        var _this = this;
-        console.log("Calling sevice to get sentences");
-        this.authService.getSentences().subscribe(function (entries) {
-            _this.sentences = entries; //the database entries are an array of objects//now available for *ngFor on home.html
-            window.scroll(0, 0);
-        }, function (err) {
-            console.log(err);
-            return false;
-        });
+        this.ngOnInit();
     };
     DisplayallComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -521,10 +531,21 @@ var HomeComponent = (function () {
             return false;
         });
     };
+    HomeComponent.prototype.onLikeClick = function (sentence) {
+        var _this = this;
+        console.log("Here are the likes" + sentence.likes);
+        this.authService.incrementLikes(sentence).subscribe(function (data) {
+            console.log("The book" + data.bookTitle + "has this many likes: " + data.likes);
+            _this.likes = data.likes;
+        }, function (err) {
+            console.log(err);
+            return false;
+        });
+    };
     HomeComponent.prototype.onSearchBookSubmit = function () {
         var _this = this;
         var searchTitle = {
-            title: this.title
+            title: this.title.toLowerCase()
         };
         console.log("Searching database for: " + searchTitle.title);
         this.authService.getSearchResult(searchTitle.title).subscribe(function (data) {
@@ -981,6 +1002,7 @@ var SentencesComponent = (function () {
             likes: this.likes,
             enteredBy: this.enteredBy,
             bookTitle: this.bookTitle,
+            searchTitle: this.bookTitle.toLowerCase(),
             authorName: this.authorName,
             firstSentence: this.firstSentence,
             lastSentence: this.lastSentence
@@ -1180,7 +1202,7 @@ module.exports = "<p>\n  dashboard works!\n</p>\n"
 /***/ 691:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngFor=\"let sentence of sentences; let i = index\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }}\n    </h4>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br>\n    \n    <div class=\"row\">\n      <div class = \"col-sm-3\">\n        <div class=\"the-icons\">\n          <p><span (click)=\"onLikeClick(sentence)\" class=\"glyphicon glyphicon-thumbs-up\"></span> {{ sentence.likes }}</p>\n        </div>\n      </div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n    </div>\n\n    <hr><br>\n  </div>\n\n  <div class=\"text-center\">\n    <form (submit)=\"onRandomSubmit()\">\n      <div class=\"form-group\">\n        <button type=\"submit\" class=\"btn btn-primary btn-lg\">3 more random entries</button>\n      </div>\n    </form> \n  </div>\n\n\n\n"
+module.exports = "<div *ngFor=\"let sentence of sentences; let i = index\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }}\n    </h4>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br>\n    \n    <div class=\"row\">\n      <div class = \"col-sm-3\">\n        <div class=\"the-icons\">\n          <p><span (click)=\"onLikeClick(sentence, i)\" class=\"glyphicon glyphicon-thumbs-up\"></span> {{ sentence.likes }}</p>\n        </div>\n      </div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n    </div>\n\n    <hr><br>\n  </div>\n\n  <div class=\"text-center\">\n    <form (submit)=\"onRandomSubmit()\">\n      <div class=\"form-group\">\n        <button type=\"submit\" class=\"btn btn-primary btn-lg\">3 more random entries</button>\n      </div>\n    </form> \n  </div>\n\n\n\n"
 
 /***/ }),
 

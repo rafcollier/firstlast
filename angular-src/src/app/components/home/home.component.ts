@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   title: String; 
   showSearch: Boolean; 
   sentence: Object;
+  likes: Number;
 
   constructor(
       private flashMessage: FlashMessagesService,
@@ -38,11 +39,24 @@ export class HomeComponent implements OnInit {
 
   	}
 
+    onLikeClick(sentence) {
+      console.log("Here are the likes" + sentence.likes);
+      this.authService.incrementLikes(sentence).subscribe(data => {
+        console.log("The book" + data.bookTitle + "has this many likes: " + data.likes); 
+        this.likes = data.likes; 
+
+      },
+      err => {
+        console.log(err);
+        return false;
+      });
+    }
+
 
   onSearchBookSubmit(){
 
     const searchTitle = {
-      title: this.title
+      title: this.title.toLowerCase()
     }
     console.log("Searching database for: " + searchTitle.title);
 
