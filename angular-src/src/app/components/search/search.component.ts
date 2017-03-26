@@ -45,8 +45,11 @@ export class SearchComponent implements OnInit {
       if(data != null) {
         this.sentence = data;
         console.log("found the title");
+         window.scroll(0, 0);
       } else {
         this.flashMessage.show('Book not found', {cssClass: 'alert-danger', timeout: 3000});
+        window.scroll(0, 0);
+        return false; 
       }
 
       }, 

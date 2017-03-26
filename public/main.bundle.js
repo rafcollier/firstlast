@@ -1012,9 +1012,12 @@ var SearchComponent = (function () {
             if (data != null) {
                 _this.sentence = data;
                 console.log("found the title");
+                window.scroll(0, 0);
             }
             else {
                 _this.flashMessage.show('Book not found', { cssClass: 'alert-danger', timeout: 3000 });
+                window.scroll(0, 0);
+                return false;
             }
         }, function (err) {
             console.log(err);
@@ -1354,7 +1357,7 @@ module.exports = "<div *ngIf=\"user\">\n\t<h2 class = \"page-header\">{{user.nam
 /***/ 699:
 /***/ (function(module, exports) {
 
-module.exports = "\n<h3 class=\"text-center margin-bottom\">These sentences are from which book?</h3><br>\n\n\n<div *ngIf=\"sentences\">\n    <h4><hr>\n      {{ sentences[sentenceIndex].firstSentence }} \n    </h4><br>\n    <h4>\n       {{ sentences[sentenceIndex].lastSentence }} \n    </h4><hr>\n</div><br>\n\n<div *ngIf=\"streak != 0 || steak != NaN\">\n  <h4 class = \"text-center\"> <span class=\"font-red\"> {{streak}} </span> correct answers in a row</h4><br>\n</div><br>\n\n<div *ngIf=\"sentences\" class=\"text-center\">\n  <button (click)=\"onClickOne()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index0].bookTitle}}</button>\n  <button (click)=\"onClickTwo()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index1].bookTitle}}</button>\n  <button (click)=\"onClickThree()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index2].bookTitle}}</button>\n</div>\n<br>\n\n\n<hr><br><br>\n\n\n  <div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <button (click)=\"ngOnInit()\" class=\"btn btn-primary btn-lg margin-bottom\">Quiz</button>\n  <form (submit)=\"onSearchBookSubmit()\">\n    <div class=\"form-group\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"><br><button type=\"submit\" class=\"btn btn-default pull-right\">Submit</button>\n    </div>\n    \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>"
+module.exports = "\n<h3 class=\"text-center margin-bottom\">These sentences are from which book?</h3><br>\n\n\n<div *ngIf=\"sentences\">\n    <h4><hr>\n      {{ sentences[sentenceIndex].firstSentence }} \n    </h4><br>\n    <h4>\n       {{ sentences[sentenceIndex].lastSentence }} \n    </h4><hr>\n</div><br>\n\n<div *ngIf=\"streak != 0 || steak != NaN\">\n  <h4 class = \"text-center\"> <span class=\"font-red\"> {{streak}} </span> correct answers in a row</h4><br>\n</div><br>\n\n<div *ngIf=\"sentences\" class=\"text-center\">\n  <button (click)=\"onClickOne()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index0].bookTitle}}</button>\n  <button (click)=\"onClickTwo()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index1].bookTitle}}</button>\n  <button (click)=\"onClickThree()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index2].bookTitle}}</button>\n</div>\n<br>\n\n\n<hr><br><br>\n\n\n  <div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <button (click)=\"onResetQuiz()\" class=\"btn btn-primary btn-lg margin-bottom\">Quiz</button>\n  <form (submit)=\"onSearchBookSubmit()\">\n    <div class=\"form-group\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"><br><button type=\"submit\" class=\"btn btn-default pull-right\">Submit</button>\n    </div>\n    \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>"
 
 /***/ }),
 
