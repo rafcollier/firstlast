@@ -1,13 +1,21 @@
+.margin-bottom {
+	margin-bottom:15px;
+}
+
 .font-red {
 	color:red;
+}
+
+.font-lightgrey {
+	color:lightgrey;
 }
 
 .font-grey {
 	color:grey;
 }
 
-.font-lightgrey {
-	color:lightgrey;
+.background-grey {
+	background-color:grey;
 }
 
 .likes-nolink {

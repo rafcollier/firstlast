@@ -16,6 +16,7 @@ export class QuizComponent implements OnInit {
   index2: number;
   sentenceIndex: number;
   streak: number;
+  title: String;
 
   constructor(
       private flashMessage: FlashMessagesService,
@@ -24,6 +25,8 @@ export class QuizComponent implements OnInit {
       ) { }
 
   ngOnInit() {
+
+    window.scrollTo(0,0);
 
     if(this.streak === NaN || this.streak === undefined){
       this.streak = 0;
@@ -94,4 +97,19 @@ export class QuizComponent implements OnInit {
     window.scroll(0, 0);
     this.ngOnInit();
   }
+
+
+  onSearchBookSubmit(){
+
+      const searchTitle = {
+        title: this.title
+      }
+
+      if(searchTitle.title != undefined || searchTitle.title != null) {
+
+        this.router.navigate(['/search', searchTitle.title.toLowerCase()]);
+
+      }  
+    }
+
 }

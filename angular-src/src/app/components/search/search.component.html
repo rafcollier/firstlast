@@ -1,0 +1,44 @@
+<div *ngIf="sentence">
+
+  <h4 class="font-red">
+    {{ sentence.bookTitle }}
+  </h4>
+  <h4 class="font-grey">
+    by {{ sentence.authorName }} 
+  </h4>
+  <br>
+  <h4>
+    {{ sentence.firstSentence }}
+  </h4>
+  <br>
+  <h4>
+    {{ sentence.lastSentence }}
+  </h4>
+  <br>
+    
+  <div class="row">
+    <div class = "col-sm-3">
+      <div class="the-icons">
+        <p><a href="" onClick="return false;" class="likes-nolink"><span (click)="onLikeClick(sentence)" class="glyphicon glyphicon-thumbs-up"></span></a> {{ sentence.likes }}</p>
+      </div>
+    </div>
+    <div class = "col-sm-3"></div>
+    <div class = "col-sm-3"></div>
+    <div class = "col-sm-3 font-lightgrey"><p>added by: {{sentence.enteredBy}}</div>
+  </div><hr><br>
+</div>
+
+<div class="text-center">
+  <a class="btn btn-primary btn-lg margin-bottom" [routerLink]="['/displayall']">3 random entries</a>
+  <a class="btn btn-primary btn-lg margin-bottom" [routerLink]="['/quiz']">Quiz</a>
+  <form (submit)="onSearchBookSubmit()">
+    <div class="form-group">
+      <br>
+      <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Search by book title"><br><button type="submit" class="btn btn-default pull-right">Submit</button>
+    </div> 
+  </form> 
+</div><br><br>
+ 
+ <div>
+    <br>
+ </div>

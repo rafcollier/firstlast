@@ -22,10 +22,13 @@ import { SentencesComponent } from './components/sentences/sentences.component';
 import { DisplayallComponent } from './components/displayall/displayall.component';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { DummyComponent } from './components/dummy/dummy.component';
+import { SearchComponent } from './components/search/search.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'search', component: SearchComponent},
+  {path: 'search/:title', component: SearchComponent},
   {path: 'dummy', component: DummyComponent},
   {path: 'login', component: LoginComponent},
   {path: 'quiz', component: QuizComponent},
@@ -48,7 +51,8 @@ const appRoutes: Routes = [
     SentencesComponent,
     DisplayallComponent,
     QuizComponent,
-    DummyComponent
+    DummyComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

@@ -24,6 +24,8 @@ export class HomeComponent implements OnInit {
 
   	ngOnInit() {
 
+      window.scrollTo(0,0);
+
       this.showSearch = false; 
 
       console.log("Calling sevice to get collection size");
@@ -39,12 +41,12 @@ export class HomeComponent implements OnInit {
 
   	}
 
-    onLikeClick(sentence) {
+    onLikeClick(sentence, index) {
       console.log("Here are the likes" + sentence.likes);
       this.authService.incrementLikes(sentence).subscribe(data => {
-        console.log("The book" + data.bookTitle + "has this many likes: " + data.likes); 
-        this.likes = data.likes; 
-
+        console.log(data);
+        this.sentence = data;
+        console.log(this.sentence[index]);
       },
       err => {
         console.log(err);
@@ -56,28 +58,14 @@ export class HomeComponent implements OnInit {
   onSearchBookSubmit(){
 
     const searchTitle = {
-      title: this.title.toLowerCase()
+      title: this.title
     }
-    console.log("Searching database for: " + searchTitle.title);
 
-    this.authService.getSearchResult(searchTitle.title).subscribe(data => {
-      console.log("Return from server after search request for book by title");
-      console.log(data);
-      this.title="";
-      if(data != null) {
-        this.showSearch = true;
-        this.sentence = data;
-        console.log("found the title");
-      } else {
-        this.flashMessage.show('Book not found', {cssClass: 'alert-danger', timeout: 3000});
-      }
-      //this.router.navigate(['/searchResult']);
+    if(searchTitle.title != undefined || searchTitle.title != null) {
 
-      }, 
-      err => {
-        console.log(err);
-        return false;
-    });
+      this.router.navigate(['/search', searchTitle.title.toLowerCase()]);
+
+    }  
 
   }
 

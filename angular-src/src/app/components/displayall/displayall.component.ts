@@ -11,10 +11,14 @@ export class DisplayallComponent implements OnInit {
   sentences: [Object]; //getting an array of objects from the database
   bookName: String;
   likes: Number;
+  title: String;
+
 
   constructor(private authService: AuthService, private router: Router) { }
 
   	ngOnInit() {
+
+      window.scrollTo(0,0);
 
       console.log("Calling sevice to get sentences");
   		this.authService.getSentences().subscribe(entries => {
@@ -43,10 +47,17 @@ export class DisplayallComponent implements OnInit {
       });
     }
 
+    onSearchBookSubmit(){
 
-
-  onRandomSubmit() {
-    this.ngOnInit();
+    const searchTitle = {
+      title: this.title
     }
 
+    if(searchTitle.title != undefined || searchTitle.title != null) {
+
+      this.router.navigate(['/search', searchTitle.title.toLowerCase()]);
+
+    }  
+
+  }
 }

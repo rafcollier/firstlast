@@ -18,9 +18,6 @@ export class SentencesComponent implements OnInit {
   authorName: String;
   firstSentence: String;
   lastSentence: String;
-  
-
-
 
   constructor(
       private validateService: ValidateService, 
