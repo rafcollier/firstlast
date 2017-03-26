@@ -63,9 +63,14 @@ export class SearchComponent implements OnInit {
   onSearchBookSubmit(){
   	console.log("In search function on search page");
     const searchTitle = {
-      title: this.title.toLowerCase()
+      title: this.title
     }
-    this.searchBook(searchTitle.title);
+
+    console.log(searchTitle.title.length);
+
+    if(searchTitle.title.length > 0) {
+      this.searchBook(searchTitle.title.toLowerCase());
+    }
   }
 
   onLikeClick(sentence, index) {

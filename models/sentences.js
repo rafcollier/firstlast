@@ -6,10 +6,19 @@ const config = require('../config/database');
 const SentenceSchema = mongoose.Schema({
 	
 	likes: {
-		type: Number
+		type: Number, default: 0
 	},
 	enteredBy: {
 		type: String
+	},
+	dateEntered: {
+		type: Date, default: Date.now
+	},
+	likedBy: {
+		type: [String]
+	},
+	comments: {
+		type: [Object]
 	},
 	bookTitle: {
 		type: String
@@ -49,14 +58,17 @@ module.exports.addSentences = function(newSentences, callback) {
 module.exports.incrementLikes = function(sentence, callback) {
   console.log("In Sentences model...to increment likes...")
   const query = {_id:sentence._id};
-  console.log(query);
+  //console.log(query);
   console.log(sentence.likes);
+  console.log(sentence.likedBy)
   sentence.likes++;
-  console.log(sentence.likes);
-  const likesPlus = sentence.likes++;
+  const likesPlus = sentence.likes;
+  const likesUserArray = sentence.likedBy;
   console.log(likesPlus);
+  console.log(likesUserArray);
+  const newLikeUser = likesUserArray[likesUserArray.length - 1];
   //query by id, pass incremented like count, set new to true to pass updated doc to callback
-  Sentences.findOneAndUpdate(query, {likes: likesPlus}, {new: true}, callback);
+  Sentences.findOneAndUpdate(query, {likes: likesPlus, $push:{likedBy: newLikeUser}}, {new: true}, callback);
 }
 
 

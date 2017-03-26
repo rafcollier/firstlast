@@ -6,9 +6,39 @@
 	color:grey;
 }
 
+.font-lightgrey {
+	color:lightgrey;
+}
+
 .margin-bottom {
   margin-bottom:15px;}
 
 .btn:focus {
   outline: none;
+}
+
+.margin-left {
+	margin-left:15px;
+}
+
+.icon-nolink {
+  
+  color: black;
+
+  :link {
+      color: black;
+  }
+
+  :visited {
+      color: black;
+  }
+
+  :hover {
+      color: black;
+  }
+
+  :active {
+      color: black;
+  }
+
 }

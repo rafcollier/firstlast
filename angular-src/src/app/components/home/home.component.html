@@ -17,14 +17,18 @@
 <div class="text-center">
   <a class="btn btn-primary btn-lg margin-bottom" [routerLink]="['/displayall']">3 random entries</a>
   <a class="btn btn-primary btn-lg margin-bottom" [routerLink]="['/quiz']">Quiz</a>
-  <form (submit)="onSearchBookSubmit()">
-    <div class="form-group">
+  <form (submit)="onSearchBookSubmit()" class="form-inline" role="form">
+    <div class="form-group has-feedback">
       <br>
-      <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Search by book title"><br><button type="submit" class="btn btn-default pull-right">Submit</button>
+      <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Search by book title"  /> 
+      <a href="" onClick="return false;" class="icon-nolink"> <span (click)="onSearchBookSubmit()" class ="glyphicon glyphicon-search margin-left font-lightgrey"></span></a>
+
+      <!--<button class="btn btn-default pull-right">Submit</button>-->
     </div> 
   </form> 
 </div><br><br>
- 
+
+
  <div>
     <br>
  </div>

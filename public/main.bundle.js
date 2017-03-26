@@ -1,6 +1,6 @@
 webpackJsonp([1,4],{
 
-/***/ 220:
+/***/ 154:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57,7 +57,7 @@ var ValidateService = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(206);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(207);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(707);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_jwt__ = __webpack_require__(525);
@@ -256,10 +256,10 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(151);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(467);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(206);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(207);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_validate_service__ = __webpack_require__(220);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_flash_messages__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_validate_service__ = __webpack_require__(154);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_flash_messages__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_angular2_flash_messages__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_auth_service__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__guards_auth_guard__ = __webpack_require__(519);
@@ -396,8 +396,11 @@ var DashboardComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_auth_service__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_validate_service__ = __webpack_require__(154);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_auth_service__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(23);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DisplayallComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -411,13 +414,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var DisplayallComponent = (function () {
-    function DisplayallComponent(authService, router) {
+    function DisplayallComponent(validateService, flashMessage, authService, router) {
+        this.validateService = validateService;
+        this.flashMessage = flashMessage;
         this.authService = authService;
         this.router = router;
     }
     DisplayallComponent.prototype.ngOnInit = function () {
         var _this = this;
+        if (this.authService.loggedIn()) {
+            this.authService.getProfile().subscribe(function (profile) {
+                _this.username = profile.user.username;
+                console.log("Profile returned from server for: " + _this.username);
+            }, function (err) {
+                console.log(err);
+                return false;
+            });
+        }
         window.scrollTo(0, 0);
         console.log("Calling sevice to get sentences");
         this.authService.getSentences().subscribe(function (entries) {
@@ -431,16 +447,32 @@ var DisplayallComponent = (function () {
         });
     };
     DisplayallComponent.prototype.onLikeClick = function (sentence, index) {
+        //console.log("Here are the likes" + sentence.likes);
         var _this = this;
-        console.log("Here are the likes" + sentence.likes);
-        this.authService.incrementLikes(sentence).subscribe(function (data) {
-            console.log(data);
-            _this.sentences[index] = data;
-            console.log(_this.sentences[index]);
-        }, function (err) {
-            console.log(err);
-            return false;
-        });
+        if (this.authService.loggedIn()) {
+            console.log(this.username);
+            console.log(sentence.likedBy);
+            var isInArray = sentence.likedBy.includes(this.username);
+            if (!isInArray) {
+                sentence.likedBy.push(this.username);
+                console.log("Push to likes array so same user can't like twice: " + sentence.likedBy);
+                this.authService.incrementLikes(sentence).subscribe(function (data) {
+                    console.log(data);
+                    _this.sentences[index] = data;
+                    console.log(_this.sentences[index]);
+                }, function (err) {
+                    console.log(err);
+                    return false;
+                });
+            }
+            else {
+                this.flashMessage.show('Hey ' + this.username + ', you already liked this one.', { cssClass: 'alert-danger', timeout: 2000 });
+                return false;
+            }
+        }
+        else {
+            this.flashMessage.show('You must log in to like sentences', { cssClass: 'alert-danger', timeout: 2000 });
+        }
     };
     DisplayallComponent.prototype.onSearchBookSubmit = function () {
         var searchTitle = {
@@ -456,10 +488,10 @@ var DisplayallComponent = (function () {
             template: __webpack_require__(693),
             styles: [__webpack_require__(681)]
         }), 
-        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__services_auth_service__["a" /* AuthService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === 'function' && _b) || Object])
+        __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_validate_service__["a" /* ValidateService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__services_validate_service__["a" /* ValidateService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__["FlashMessagesService"] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__["FlashMessagesService"]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__services_auth_service__["a" /* AuthService */]) === 'function' && _c) || Object, (typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_4__angular_router__["b" /* Router */]) === 'function' && _d) || Object])
     ], DisplayallComponent);
     return DisplayallComponent;
-    var _a, _b;
+    var _a, _b, _c, _d;
 }());
 //# sourceMappingURL=/Users/Collier/Documents/firstlast/angular-src/src/displayall.component.js.map
 
@@ -505,7 +537,7 @@ var DummyComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_flash_messages__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_flash_messages__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular2_flash_messages__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_auth_service__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(23);
@@ -585,7 +617,7 @@ var HomeComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_auth_service__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -651,7 +683,7 @@ var LoginComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_auth_service__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavbarComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -766,7 +798,7 @@ var ProfileComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_auth_service__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_angular2_flash_messages__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return QuizComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -882,8 +914,8 @@ var QuizComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_validate_service__ = __webpack_require__(220);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_validate_service__ = __webpack_require__(154);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_auth_service__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(23);
@@ -963,7 +995,7 @@ var RegisterComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_flash_messages__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_flash_messages__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular2_flash_messages__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_auth_service__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(23);
@@ -1023,9 +1055,12 @@ var SearchComponent = (function () {
     SearchComponent.prototype.onSearchBookSubmit = function () {
         console.log("In search function on search page");
         var searchTitle = {
-            title: this.title.toLowerCase()
+            title: this.title
         };
-        this.searchBook(searchTitle.title);
+        console.log(searchTitle.title.length);
+        if (searchTitle.title.length > 0) {
+            this.searchBook(searchTitle.title.toLowerCase());
+        }
     };
     SearchComponent.prototype.onLikeClick = function (sentence, index) {
         var _this = this;
@@ -1059,8 +1094,8 @@ var SearchComponent = (function () {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_validate_service__ = __webpack_require__(220);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_validate_service__ = __webpack_require__(154);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_angular2_flash_messages__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_auth_service__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(23);
@@ -1102,6 +1137,9 @@ var SentencesComponent = (function () {
         this.likes = 0;
         var sentences = {
             likes: this.likes,
+            likedBy: this.likedBy,
+            dateEntered: this.dateEntered,
+            comments: this.comments,
             enteredBy: this.enteredBy,
             bookTitle: this.bookTitle,
             searchTitle: this.bookTitle.toLowerCase(),
@@ -1227,7 +1265,7 @@ module.exports = ""
 /***/ 681:
 /***/ (function(module, exports) {
 
-module.exports = ".font-red {\n\tcolor:red;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}\n\n.likes-nolink {\n  \n  color: black;\n\n  :link {\n      color: black;\n  }\n\n  :visited {\n      color: black;\n  }\n\n  :hover {\n      color: black;\n  }\n\n  :active {\n      color: black;\n  }\n}"
+module.exports = ".font-red {\n\tcolor:red;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}\n\n.margin-left {\n  margin-left:15px;\n}\n\n.likes-nolink {\n  \n  color: black;\n\n  :link {\n      color: black;\n  }\n\n  :visited {\n      color: black;\n  }\n\n  :hover {\n      color: black;\n  }\n\n  :active {\n      color: black;\n  }\n}"
 
 /***/ }),
 
@@ -1241,7 +1279,7 @@ module.exports = ""
 /***/ 683:
 /***/ (function(module, exports) {
 
-module.exports = ".margin-bottom {\n\tmargin-bottom:15px;\n}\n\n.font-red {\n\tcolor:red;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.background-grey {\n\tbackground-color:grey;\n}\n"
+module.exports = ".margin-bottom {\n\tmargin-bottom:15px;\n}\n\n.font-red {\n\tcolor:red;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.background-grey {\n\tbackground-color:grey;\n}\n\n.margin-left {\n\tmargin-left:15px;\n}\n\n.icon-nolink {\n  \n  color: black;\n\n  :link {\n      color: black;\n  }\n\n  :visited {\n      color: black;\n  }\n\n  :hover {\n      color: black;\n  }\n\n  :active {\n      color: black;\n  }\n\n}"
 
 /***/ }),
 
@@ -1269,7 +1307,7 @@ module.exports = ""
 /***/ 687:
 /***/ (function(module, exports) {
 
-module.exports = ".font-red {\n\tcolor:red;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.margin-bottom {\n  margin-bottom:15px;}\n\n.btn:focus {\n  outline: none;\n}"
+module.exports = ".font-red {\n\tcolor:red;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}\n\n.margin-bottom {\n  margin-bottom:15px;}\n\n.btn:focus {\n  outline: none;\n}\n\n.margin-left {\n\tmargin-left:15px;\n}\n\n.icon-nolink {\n  \n  color: black;\n\n  :link {\n      color: black;\n  }\n\n  :visited {\n      color: black;\n  }\n\n  :hover {\n      color: black;\n  }\n\n  :active {\n      color: black;\n  }\n\n}\n"
 
 /***/ }),
 
@@ -1283,7 +1321,7 @@ module.exports = ".margin-bottom {\n  margin-bottom:15px;}"
 /***/ 689:
 /***/ (function(module, exports) {
 
-module.exports = ".margin-bottom {\n\tmargin-bottom:15px;\n}\n\n.font-red {\n\tcolor:red;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.background-grey {\n\tbackground-color:grey;\n}\n\n.likes-nolink {\n  \n  color: black;\n\n  :link {\n      color: black;\n  }\n\n  :visited {\n      color: black;\n  }\n\n  :hover {\n      color: black;\n  }\n\n  :active {\n      color: black;\n  }\n}\n"
+module.exports = ".margin-bottom {\n\tmargin-bottom:15px;\n}\n\n.font-red {\n\tcolor:red;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.background-grey {\n\tbackground-color:grey;\n}\n\n.margin-left {\n  margin-left:15px;\n}\n\n.likes-nolink {\n  \n  color: black;\n\n  :link {\n      color: black;\n  }\n\n  :visited {\n      color: black;\n  }\n\n  :hover {\n      color: black;\n  }\n\n  :active {\n      color: black;\n  }\n}\n"
 
 /***/ }),
 
@@ -1311,7 +1349,7 @@ module.exports = "<p>\n  dashboard works!\n</p>\n"
 /***/ 693:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngFor=\"let sentence of sentences; let i = index\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }}\n    </h4>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br>\n    \n    <div class=\"row\">\n      <div class = \"col-sm-3\">\n        <div class=\"the-icons\">\n          <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence, i)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}</p>\n        </div>\n      </div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n    </div>\n\n    <hr><br>\n  </div>\n\n <div class=\"text-center\">\n  <button (click)=\"ngOnInit()\" class=\"btn btn-primary btn-lg margin-bottom\">3 random entries</button>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\">\n    <div class=\"form-group\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"><br><button type=\"submit\" class=\"btn btn-default pull-right\">Submit</button>\n    </div>\n    \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>\n\n\n"
+module.exports = "<div *ngFor=\"let sentence of sentences; let i = index\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }}\n    </h4>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br>\n    \n    <div class=\"row\">\n      <div class = \"col-sm-3\">\n        <div class=\"the-icons\">\n          <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence, i)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}</p>\n        </div>\n      </div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n    </div>\n\n    <hr><br>\n  </div>\n\n <div class=\"text-center\">\n  <button (click)=\"ngOnInit()\" class=\"btn btn-primary btn-lg margin-bottom\">3 random entries</button>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"  /> \n      <a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"> <span (click)=\"onSearchBookSubmit()\" class =\"glyphicon glyphicon-search margin-left font-lightgrey\"></span></a>\n\n      <!--<button class=\"btn btn-default pull-right\">Submit</button>-->\n    </div> \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>\n\n\n"
 
 /***/ }),
 
@@ -1325,7 +1363,7 @@ module.exports = "<p>\n  dummy works!\n</p>\n"
 /***/ 695:
 /***/ (function(module, exports) {
 
-module.exports = "\n\n<div class=\"jumbotron\">\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h3 class=\"text-center margin-bottom\">A collection of first and last sentences</h3>\n  <h4 class=\"text-center margin-bottom\">Please help grow this collection</h4>\n  <h4 class=\"text-center margin-bottom\">Register and add sentences from your favourite books</h4> \n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephenie Meyer</h4>\n</div>\n\n<div>\n  <h4 class = \"text-center\">There are first and last sentences from <span class=\"font-red\">{{size}} </span> books in First and Last</h4><br>\n</div>\n\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\">\n    <div class=\"form-group\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"><br><button type=\"submit\" class=\"btn btn-default pull-right\">Submit</button>\n    </div> \n  </form> \n</div><br><br>\n \n <div>\n    <br>\n </div>\n\n\n\n"
+module.exports = "\n\n<div class=\"jumbotron\">\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h3 class=\"text-center margin-bottom\">A collection of first and last sentences</h3>\n  <h4 class=\"text-center margin-bottom\">Please help grow this collection</h4>\n  <h4 class=\"text-center margin-bottom\">Register and add sentences from your favourite books</h4> \n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephenie Meyer</h4>\n</div>\n\n<div>\n  <h4 class = \"text-center\">There are first and last sentences from <span class=\"font-red\">{{size}} </span> books in First and Last</h4><br>\n</div>\n\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"  /> \n      <a href=\"\" onClick=\"return false;\" class=\"icon-nolink\"> <span (click)=\"onSearchBookSubmit()\" class =\"glyphicon glyphicon-search margin-left font-lightgrey\"></span></a>\n\n      <!--<button class=\"btn btn-default pull-right\">Submit</button>-->\n    </div> \n  </form> \n</div><br><br>\n\n\n <div>\n    <br>\n </div>\n\n\n\n"
 
 /***/ }),
 
@@ -1353,7 +1391,7 @@ module.exports = "<div *ngIf=\"user\">\n\t<h2 class = \"page-header\">{{user.nam
 /***/ 699:
 /***/ (function(module, exports) {
 
-module.exports = "\n<h3 class=\"text-center margin-bottom\">These sentences are from which book?</h3><br>\n\n\n<div *ngIf=\"sentences\">\n    <h4><hr>\n      {{ sentences[sentenceIndex].firstSentence }} \n    </h4><br>\n    <h4>\n       {{ sentences[sentenceIndex].lastSentence }} \n    </h4><hr>\n</div><br>\n\n<div *ngIf=\"streak != 0 || steak != NaN\">\n  <h4 class = \"text-center\"> <span class=\"font-red\"> {{streak}} </span> correct answers in a row</h4><br>\n</div><br>\n\n<div *ngIf=\"sentences\" class=\"text-center\">\n  <button (click)=\"onClickOne()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index0].bookTitle}}</button>\n  <button (click)=\"onClickTwo()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index1].bookTitle}}</button>\n  <button (click)=\"onClickThree()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index2].bookTitle}}</button>\n</div>\n<br>\n\n\n<hr><br><br>\n\n\n  <div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <button (click)=\"onResetQuiz()\" class=\"btn btn-primary btn-lg margin-bottom\">Quiz</button>\n  <form (submit)=\"onSearchBookSubmit()\">\n    <div class=\"form-group\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"><br><button type=\"submit\" class=\"btn btn-default pull-right\">Submit</button>\n    </div>\n    \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>"
+module.exports = "\n<h3 class=\"text-center margin-bottom\">These sentences are from which book?</h3><br>\n\n\n<div *ngIf=\"sentences\">\n    <h4><hr>\n      {{ sentences[sentenceIndex].firstSentence }} \n    </h4><br>\n    <h4>\n       {{ sentences[sentenceIndex].lastSentence }} \n    </h4><hr>\n</div><br>\n\n<div *ngIf=\"streak != 0 || steak != NaN\">\n  <h4 class = \"text-center\"> <span class=\"font-red\"> {{streak}} </span> correct answers in a row</h4><br>\n</div><br>\n\n<div *ngIf=\"sentences\" class=\"text-center\">\n  <button (click)=\"onClickOne()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index0].bookTitle}}</button>\n  <button (click)=\"onClickTwo()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index1].bookTitle}}</button>\n  <button (click)=\"onClickThree()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index2].bookTitle}}</button>\n</div>\n<br>\n\n\n<hr><br><br>\n\n\n  <div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <button (click)=\"onResetQuiz()\" class=\"btn btn-primary btn-lg margin-bottom\">Quiz</button>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"  /> \n      <a href=\"\" onClick=\"return false;\" class=\"icon-nolink\"> <span (click)=\"onSearchBookSubmit()\" class =\"glyphicon glyphicon-search margin-left font-lightgrey\"></span></a>\n\n      <!--<button class=\"btn btn-default pull-right\">Submit</button>-->\n    </div> \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>"
 
 /***/ }),
 
@@ -1367,7 +1405,7 @@ module.exports = "<h2 class=\"page-header\">Register</h2>\n<form (submit)=\"onRe
 /***/ 701:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"sentence\">\n\n  <h4 class=\"font-red\">\n    {{ sentence.bookTitle }}\n  </h4>\n  <h4 class=\"font-grey\">\n    by {{ sentence.authorName }} \n  </h4>\n  <br>\n  <h4>\n    {{ sentence.firstSentence }}\n  </h4>\n  <br>\n  <h4>\n    {{ sentence.lastSentence }}\n  </h4>\n  <br>\n    \n  <div class=\"row\">\n    <div class = \"col-sm-3\">\n      <div class=\"the-icons\">\n        <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}</p>\n      </div>\n    </div>\n    <div class = \"col-sm-3\"></div>\n    <div class = \"col-sm-3\"></div>\n    <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n  </div><hr><br>\n</div>\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\">\n    <div class=\"form-group\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"><br><button type=\"submit\" class=\"btn btn-default pull-right\">Submit</button>\n    </div> \n  </form> \n</div><br><br>\n \n <div>\n    <br>\n </div>\n"
+module.exports = "<div *ngIf=\"sentence\">\n\n  <h4 class=\"font-red\">\n    {{ sentence.bookTitle }}\n  </h4>\n  <h4 class=\"font-grey\">\n    by {{ sentence.authorName }} \n  </h4>\n  <br>\n  <h4>\n    {{ sentence.firstSentence }}\n  </h4>\n  <br>\n  <h4>\n    {{ sentence.lastSentence }}\n  </h4>\n  <br>\n    \n  <div class=\"row\">\n    <div class = \"col-sm-3\">\n      <div class=\"the-icons\">\n        <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}</p>\n      </div>\n    </div>\n    <div class = \"col-sm-3\"></div>\n    <div class = \"col-sm-3\"></div>\n    <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n  </div><hr><br>\n</div>\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"  /> \n      <a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"> <span (click)=\"onSearchBookSubmit()\" class =\"glyphicon glyphicon-search margin-left font-lightgrey\"></span></a>\n\n      <!--<button class=\"btn btn-default pull-right\">Submit</button>-->\n    </div> \n  </form> \n \n <div>\n    <br>\n </div>\n"
 
 /***/ }),
 
