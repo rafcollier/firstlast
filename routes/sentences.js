@@ -7,37 +7,37 @@ const config = require('../config/database');
 const Sentences = require('../models/sentences');
 
 router.post('/sentences', (req, res, next) => {
-	let newSentences = new Sentences({
-		likes: req.body.likes,
-		enteredBy: req.body.enteredBy,
-		bookTitle:  req.body.bookTitle,
-		searchTitle: req.body.searchTitle,
-		authorName: req.body.authorName,
-		firstSentence: req.body.firstSentence,
-		lastSentence: req.body.lastSentence
-		//likedBy: req.body.likedBy,
-		//dateEntered: req.body.dateEntered,
-		//comments: req.body.comments
-	});
+  let newSentences = new Sentences({
+    likes: req.body.likes,
+	enteredBy: req.body.enteredBy,
+	bookTitle:  req.body.bookTitle,
+	searchTitle: req.body.searchTitle,
+	authorName: req.body.authorName,
+	firstSentence: req.body.firstSentence,
+	lastSentence: req.body.lastSentence
+	//likedBy: req.body.likedBy,
+	//dateEntered: req.body.dateEntered,
+	//comments: req.body.comments
+  });
 
-	console.log("Entering sentences for user: " + newSentences.enteredBy);
+  console.log("Entering sentences for user: " + newSentences.enteredBy);
 
-    Sentences.getSentencesByBookTitle(newSentences.searchTitle, (err, book) => {
-      console.log("Returned from database with book");
-      if(err) throw err;
-      if(book) {
-      	return res.json({sucess: false, msg: 'This book has already in the collection'})
-      }	
+  Sentences.getSentencesByBookTitle(newSentences.searchTitle, (err, book) => {
+    console.log("Returned from database with book");
+    if(err) throw err;
+    if(book) {
+      return res.json({sucess: false, msg: 'This book has already in the collection'})
+    }	
 
-	  Sentences.addSentences(newSentences, (err, sentences) => {
-	    if(err) {
-			res.json({success: false, msg: 'Failed to add sentences'});
-		} else {
-			res.json({success: true, msg: 'Sentences added'});
-		}
-	  });	
-    });
-}
+	Sentences.addSentences(newSentences, (err, sentences) => {
+	  if(err) {
+	    res.json({success: false, msg: 'Failed to add sentences'});
+	  } else {
+		res.json({success: true, msg: 'Sentences added'});
+	  }
+    });	
+  });
+});
 
 //Get sentences to display on the homepage
 router.get('/getAllSentences', (req, res, next) => {
