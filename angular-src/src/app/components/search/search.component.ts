@@ -3,6 +3,8 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {ActivatedRoute} from '@angular/router';
+import {ValidateService} from '../../services/validate.service';
+import { tokenNotExpired } from 'angular2-jwt';
 
 @Component({
   selector: 'app-search',
@@ -14,8 +16,10 @@ export class SearchComponent implements OnInit {
 	searchTitle: Object;
 	private sub: any;
 	sentence: Object;
-    likes: Number;
-    today: Date;
+  likes: Number;
+  today: Date;
+  username: String;
+  authToken: any;
 
   constructor(
   	private route: ActivatedRoute,
@@ -25,6 +29,17 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    if (this.authService.loggedIn()) {
+      this.authService.getProfile().subscribe(profile => {
+        this.username = profile.user.username;
+        console.log("Profile returned from server for: " + this.username);
+      },
+      err => {
+        console.log(err);
+        return false;
+      });
+    }
    
    window.scrollTo(0,0);
   
@@ -73,18 +88,44 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  onLikeClick(sentence, index) {
-    console.log("Here are the likes" + sentence.likes);
-    this.authService.incrementLikes(sentence).subscribe(data => {
-      console.log(data);
-      this.sentence = data;
-      console.log(this.sentence[index]);
-    },
-    err => {
-      console.log(err);
-      return false;
-    });
+  onCommentClick(sentence) {
+    console.log(this.sentence);
+    const commentSentence = this.sentence; 
+    this.router.navigate(['/comment', commentSentence]);
   }
+
+
+
+  onLikeClick(sentence) {
+  //console.log("Here are the likes" + sentence.likes);
+    if(this.authService.loggedIn()) {
+      console.log(this.username);
+      console.log(sentence.likedBy);
+      const isInArray = sentence.likedBy.includes(this.username); 
+
+      if(!isInArray) {
+      sentence.likedBy.push(this.username); 
+        console.log("Push to likes array so same user can't like twice: " + sentence.likedBy);
+        this.authService.incrementLikes(sentence).subscribe(data => {
+          console.log(data);
+          this.sentence = data;
+          console.log(this.sentence);
+        },
+        err => {
+          console.log(err);
+          return false;
+        });
+      } else {
+         window.scroll(0, 0);
+         this.flashMessage.show('Hey ' + this.username + ', you already liked this one.', {cssClass: 'alert-danger', timeout: 2000}); 
+         return false; 
+      }
+    } else {
+        window.scroll(0, 0);
+        this.flashMessage.show('You must log in to like sentences', {cssClass: 'alert-danger', timeout: 2000}); 
+    }
+  } 
+
   
 
 }

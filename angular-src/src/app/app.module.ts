@@ -23,6 +23,7 @@ import { DisplayallComponent } from './components/displayall/displayall.componen
 import { QuizComponent } from './components/quiz/quiz.component';
 import { DummyComponent } from './components/dummy/dummy.component';
 import { SearchComponent } from './components/search/search.component';
+import { CommentComponent } from './components/comment/comment.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
   {path: 'quiz', component: QuizComponent},
   {path: 'displayall', component: DisplayallComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
+  {path: 'comment', component: CommentComponent},
   {path: 'sentences', component: SentencesComponent, canActivate:[AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate:[AuthGuard]}
 
@@ -52,7 +54,8 @@ const appRoutes: Routes = [
     DisplayallComponent,
     QuizComponent,
     DummyComponent,
-    SearchComponent
+    SearchComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,

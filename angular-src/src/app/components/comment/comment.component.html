@@ -1,0 +1,7 @@
+<h2 class="page-header">Add a comment</h2>
+<form (submit)="onCommentSubmit()">
+  <div class="form-group">
+    <input type="text" [(ngModel)]="comment" name="comment" class="form-control margin-bottom"><br>
+    <input type="submit" class="btn btn-primary pull-right" value="Submit">
+  </div>
+</form>

@@ -79,22 +79,22 @@ export class QuizComponent implements OnInit {
   }
 
   incorrectAnswer() {
+    window.scroll(0, 0);
     this.flashMessage.show('Sorry, guess again', {cssClass: 'alert-danger', timeout: 2000});
     this.streak=0;
-    window.scroll(0, 0);
     return false; 
   }
 
   correctAnswer() {
+    window.scroll(0, 0);
     this.flashMessage.show('Correct! Try another', {cssClass: 'alert-success', timeout: 2000});
     this.streak++;
-    window.scroll(0, 0);
     this.ngOnInit();
   }
 
   onResetQuiz() {
-    this.streak=0;
     window.scroll(0, 0);
+    this.streak=0;
     this.ngOnInit();
   }
 

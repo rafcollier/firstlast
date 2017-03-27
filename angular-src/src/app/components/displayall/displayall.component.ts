@@ -76,11 +76,13 @@ export class DisplayallComponent implements OnInit {
             return false;
           });
         } else {
+           window.scroll(0, 0);
            this.flashMessage.show('Hey ' + this.username + ', you already liked this one.', {cssClass: 'alert-danger', timeout: 2000}); 
            return false; 
         }
       } else {
-        this.flashMessage.show('You must log in to like sentences', {cssClass: 'alert-danger', timeout: 2000}); 
+          window.scroll(0, 0);
+          this.flashMessage.show('You must log in to like sentences', {cssClass: 'alert-danger', timeout: 2000}); 
       }
 
     } 

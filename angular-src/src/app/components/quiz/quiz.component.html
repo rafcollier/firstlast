@@ -32,10 +32,8 @@
   <form (submit)="onSearchBookSubmit()" class="form-inline" role="form">
     <div class="form-group has-feedback">
       <br>
-      <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Search by book title"  /> 
-      <a href="" onClick="return false;" class="icon-nolink"> <span (click)="onSearchBookSubmit()" class ="glyphicon glyphicon-search margin-left font-lightgrey"></span></a>
-
-      <!--<button class="btn btn-default pull-right">Submit</button>-->
+      <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Search by book title"> 
+      <button class="btn btn-default pull-right">Search</button>
     </div> 
   </form> 
 </div><br><br>
