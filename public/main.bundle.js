@@ -84,8 +84,8 @@ var AuthService = (function () {
     AuthService.prototype.registerUser = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        //console.log("http request to register user with user: " + user.username);
-        return this.http.post('http://localhost:3000/users/register', user, { headers: headers }) //for local development
+        //return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) //for local development
+        return this.http.post('users/register', user, { headers: headers })
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.submitSentences = function (sentences) {
@@ -93,16 +93,14 @@ var AuthService = (function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Authorization', this.authToken);
         headers.append('Content-Type', 'application/json');
-        console.log("submitting sentences to server");
-        return this.http.post('http://localhost:3000/sentences/sentences', sentences, { headers: headers }) //for local development
+        //return this.http.post('http://localhost:3000/sentences/sentences', sentences, {headers: headers}) //for local development
+        return this.http.post('sentences/sentences', sentences, { headers: headers }) //for local development
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.authenticateUser = function (user) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        console.log("http request to check login credentials for " + user.username);
-        //return this.http.post('users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
-        return this.http.post('http://localhost:3000/users/authenticate', user, { headers: headers }) //add this for local dev: http://localhost:3000/
+        return this.http.post('users/authenticate', user, { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.getProfile = function () {
@@ -110,9 +108,7 @@ var AuthService = (function () {
         this.loadToken();
         headers.append('Authorization', this.authToken);
         headers.append('Content-Type', 'application/json');
-        console.log("http reqeust for profle from service");
-        //return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
-        return this.http.get('http://localhost:3000/users/profile', { headers: headers }) //add this for local dev: http://localhost:3000/
+        return this.http.get('users/profile', { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.getSearchResult = function (title) {
@@ -123,9 +119,7 @@ var AuthService = (function () {
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]();
         options.headers = headers;
         options.search = params;
-        console.log("http request for search on book title");
-        //return this.http.get('sentences/searchBook', options) //add this for local dev: http://localhost:3000/
-        return this.http.get('http://localhost:3000/sentences/searchBook', options) //add this for local dev: http://localhost:3000/
+        return this.http.get('sentences/searchBook', options) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.incrementLikes = function (sentence) {
@@ -134,9 +128,7 @@ var AuthService = (function () {
         headers.append('Content-Type', 'application/json');
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]();
         options.headers = headers;
-        console.log("http request to increment likes");
-        //return this.http.put('sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
-        return this.http.put('http://localhost:3000/sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
+        return this.http.put('sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.addComment = function (comment) {
@@ -145,25 +137,19 @@ var AuthService = (function () {
         headers.append('Content-Type', 'application/json');
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["RequestOptions"]();
         options.headers = headers;
-        console.log("http request to add comment");
-        //return this.http.put('sentences/addComment', body, options) //add this for local dev: http://localhost:3000/
-        return this.http.put('http://localhost:3000/sentences/addComment', body, options) //add this for local dev: http://localhost:3000/
+        return this.http.put('sentences/addComment', body, options) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.getCollectionLength = function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        console.log("http request for collection length");
-        //return this.http.get('sentences/collectionLength', {headers: headers}) //add this for local dev: http://localhost:3000/
-        return this.http.get('http://localhost:3000/sentences/collectionLength', { headers: headers }) //add this for local dev: http://localhost:3000/
+        return this.http.get('sentences/collectionLength', { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.getSentences = function () {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["Headers"]();
         headers.append('Content-Type', 'application/json');
-        console.log("sending request for sentences to server");
-        //return this.http.get('sentences/getAllSentences', {headers: headers}) //add this for local dev: http://localhost:3000/
-        return this.http.get('http://localhost:3000/sentences/getAllSentences', { headers: headers }) //add this for local dev: http://localhost:3000/
+        return this.http.get('sentences/getAllSentences', { headers: headers }) //add this for local dev: http://localhost:3000/
             .map(function (res) { return res.json(); });
     };
     AuthService.prototype.storeUserData = function (token, user) {
@@ -411,10 +397,32 @@ var CommentComponent = (function () {
     }
     CommentComponent.prototype.ngOnInit = function () {
         var _this = this;
+        //Get the paramaters passed in to this route to identify which entry these comments are for.
         this.sub = this.route.params.subscribe(function (params) {
-            _this.sentence = params;
-            console.log(_this.sentence);
+            console.log(params);
+            _this.getTitle = params["bookTitle"].toLowerCase();
+            _this.getID = params["_id"];
         });
+        //Fetch this entry from database
+        this.authService.getSearchResult(this.getTitle).subscribe(function (data) {
+            console.log("Return from server after search request for book by title");
+            console.log(data);
+            if (data != null) {
+                _this.sentence = data;
+                _this.comments = data.comments;
+                console.log(_this.comments);
+                window.scroll(0, 0);
+            }
+            else {
+                _this.flashMessage.show('Problem fetching this sentence', { cssClass: 'alert-danger', timeout: 3000 });
+                window.scroll(0, 0);
+                return false;
+            }
+        }, function (err) {
+            console.log(err);
+            return false;
+        });
+        //Check if user is logged in and grab the user name. Only users can comment. 
         if (this.authService.loggedIn()) {
             this.authService.getProfile().subscribe(function (profile) {
                 _this.username = profile.user.username;
@@ -426,22 +434,26 @@ var CommentComponent = (function () {
         }
         window.scrollTo(0, 0);
     };
-    //Must recreate object on a submit?
+    //Check if user is logged on submit. Grab new comment body from form. 
+    //Create new comment object to send to database with username, comment body, and db entry id 
+    //Send update request to server. When data comes back successfully, create a local comments array to display on page.
     CommentComponent.prototype.onCommentSubmit = function (sentence) {
         var _this = this;
         if (this.authService.loggedIn()) {
             console.log(this.username);
             var comment = {
                 username: this.username,
-                body: this.comment,
-                id: sentence._id
+                body: this.inputComment,
+                id: this.getID
             };
             console.log(comment);
             this.authService.addComment(comment).subscribe(function (data) {
                 console.log(data);
-                _this.newSentence = data;
-                console.log(_this.newSentence);
-                _this.comment = "";
+                _this.comments = data.comments;
+                console.log(_this.comments);
+                _this.inputComment = ""; //reset input field
+                window.scrollTo(0, 0);
+                _this.ngOnInit(); //go back to intialize
             }, function (err) {
                 console.log(err);
                 return false;
@@ -454,7 +466,7 @@ var CommentComponent = (function () {
     };
     CommentComponent.prototype.onSearchBookSubmit = function () {
         var searchTitle = {
-            title: this.title
+            title: this.searchInputTitle
         };
         if (searchTitle.title != undefined || searchTitle.title != null) {
             this.router.navigate(['/search', searchTitle.title.toLowerCase()]);
@@ -594,6 +606,12 @@ var DisplayallComponent = (function () {
             window.scroll(0, 0);
             this.flashMessage.show('You must log in to like sentences', { cssClass: 'alert-danger', timeout: 2000 });
         }
+    };
+    DisplayallComponent.prototype.onCommentClick = function (sentence) {
+        console.log("User clicked on comments icon for:");
+        var commentSentence = sentence;
+        console.log(commentSentence);
+        this.router.navigate(['/comment', commentSentence]);
     };
     DisplayallComponent.prototype.onSearchBookSubmit = function () {
         var searchTitle = {
@@ -1170,6 +1188,7 @@ var SearchComponent = (function () {
             _this.title = "";
             if (data != null) {
                 _this.sentence = data;
+                _this.numComments = data.comments.length;
                 console.log("found the title");
                 window.scroll(0, 0);
             }
@@ -1193,9 +1212,10 @@ var SearchComponent = (function () {
             this.searchBook(searchTitle.title.toLowerCase());
         }
     };
-    SearchComponent.prototype.onCommentClick = function (sentence) {
-        console.log(this.sentence);
+    SearchComponent.prototype.onCommentClick = function () {
+        console.log("User clicked on comments icon for:");
         var commentSentence = this.sentence;
+        console.log(commentSentence);
         this.router.navigate(['/comment', commentSentence]);
     };
     SearchComponent.prototype.onLikeClick = function (sentence) {
@@ -1503,7 +1523,7 @@ module.exports = "<app-navbar></app-navbar>\n<div class = \"container\">\n  <fla
 /***/ 694:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"sentence\">\n\n  <h2 class=\"font-red\">\n    {{ sentence.bookTitle }}\n  </h2>\n\n  \n  <br>\n\n</div>\n\n\n<h2 class=\"page-header\">Add a comment</h2>\n<form (submit)=\"onCommentSubmit(sentence)\">\n  <div class=\"form-group\">\n    <input type=\"text\" [(ngModel)]=\"comment\" name=\"comment\" class=\"form-control\"><br>\n    <input type=\"submit\" class=\"btn btn-primary pull-right\" value=\"Submit\">\n  </div>\n</form>\n\n<br><br><br><hr>\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n \n <div>\n    <br>\n </div>\n"
+module.exports = "<div *ngIf=\"sentence\">\n\n  <h2 class=\"font-red\">\n    {{ sentence.bookTitle }}\n  </h2>\n  <br><hr><br>\n</div>\n\n<div *ngFor=\"let comment of comments; let i = index\">\n  \n  <p class=\"font-lightgrey\">comment by: {{comment.username}}</p>\n    <h4>\n      {{ comment.body }}\n    </h4>\n</div>    \n<hr><br><br>\n\n\n<h2 class=\"page-header\">Add a comment</h2>\n<form (submit)=\"onCommentSubmit()\">\n  <div class=\"form-group\">\n    <input type=\"text\" [(ngModel)]=\"inputComment\" name=\"inputComment\" class=\"form-control\"><br>\n    <input type=\"submit\" class=\"btn btn-primary pull-right\" value=\"Submit\">\n  </div>\n</form>\n\n<br><br><br><hr>\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"searchInputTitle\" name=\"searchInputTitle\" class=\"form-control\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n \n <div>\n    <br>\n </div>\n"
 
 /***/ }),
 
@@ -1517,7 +1537,7 @@ module.exports = "<p>\n  dashboard works!\n</p>\n"
 /***/ 696:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngFor=\"let sentence of sentences; let i = index\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }}\n    </h4>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br>\n    \n    <div class=\"row\">\n      <div class = \"col-sm-3\">\n        <div class=\"the-icons\">\n          <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence, i)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}</p>\n        </div>\n      </div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n    </div>\n\n    <hr><br>\n  </div>\n\n <div class=\"text-center\">\n  <button (click)=\"ngOnInit()\" class=\"btn btn-primary btn-lg margin-bottom\">3 random entries</button>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>\n\n\n"
+module.exports = "<div *ngFor=\"let sentence of sentences; let i = index\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }}\n    </h4>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br>\n    \n    <div class=\"row\">\n      <div class = \"col-sm-6\">\n        <div class=\"the-icons\">\n          <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence, i)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}\n          <a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onCommentClick(sentence)\" class=\"glyphicon glyphicon-comment\"></span></a> {{ sentence.comments.length }}</p>\n        </div>\n      </div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n    </div>\n\n    <hr><br>\n  </div>\n\n <div class=\"text-center\">\n  <button (click)=\"ngOnInit()\" class=\"btn btn-primary btn-lg margin-bottom\">3 random entries</button>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>\n\n\n"
 
 /***/ }),
 
@@ -1573,7 +1593,7 @@ module.exports = "<h2 class=\"page-header\">Register</h2>\n<form (submit)=\"onRe
 /***/ 704:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"sentence\">\n\n  <h4 class=\"font-red\">\n    {{ sentence.bookTitle }}\n  </h4>\n  <h4 class=\"font-grey\">\n    by {{ sentence.authorName }} \n  </h4>\n  <br>\n  <h4>\n    {{ sentence.firstSentence }}\n  </h4>\n  <br>\n  <h4>\n    {{ sentence.lastSentence }}\n  </h4>\n  <br>\n    \n  <div class=\"row\">\n    <div class = \"col-sm-6\">\n      <div class=\"the-icons\">\n        <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}\n        <a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onCommentClick(sentence)\" class=\"glyphicon glyphicon-comment\"></span></a> {{ sentence.likes }}</p>\n      </div>\n    </div>\n    <div class = \"col-sm-3\"></div>\n    <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n  </div><hr><br>\n</div>\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n \n <div>\n    <br>\n </div>\n"
+module.exports = "<div *ngIf=\"sentence\">\n\n  <h4 class=\"font-red\">\n    {{ sentence.bookTitle }}\n  </h4>\n  <h4 class=\"font-grey\">\n    by {{ sentence.authorName }} \n  </h4>\n  <br>\n  <h4>\n    {{ sentence.firstSentence }}\n  </h4>\n  <br>\n  <h4>\n    {{ sentence.lastSentence }}\n  </h4>\n  <br>\n    \n  <div class=\"row\">\n    <div class = \"col-sm-6\">\n      <div class=\"the-icons\">\n        <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}\n        <a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onCommentClick()\" class=\"glyphicon glyphicon-comment\"></span></a> {{ numComments }}</p>\n      </div>\n    </div>\n    <div class = \"col-sm-3\"></div>\n    <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n  </div><hr><br>\n</div>\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n \n <div>\n    <br>\n </div>\n"
 
 /***/ }),
 

@@ -17,6 +17,7 @@ export class SearchComponent implements OnInit {
 	private sub: any;
 	sentence: Object;
   likes: Number;
+  numComments: Number;
   today: Date;
   username: String;
   authToken: any;
@@ -60,8 +61,9 @@ export class SearchComponent implements OnInit {
       this.title="";
       if(data != null) {
         this.sentence = data;
+        this.numComments = data.comments.length; 
         console.log("found the title");
-         window.scroll(0, 0);
+        window.scroll(0, 0);
       } else {
         this.flashMessage.show('Book not found', {cssClass: 'alert-danger', timeout: 3000});
         window.scroll(0, 0);
@@ -89,9 +91,10 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  onCommentClick(sentence) {
-    console.log(this.sentence);
-    const commentSentence = this.sentence; 
+  onCommentClick() {
+    console.log("User clicked on comments icon for:");
+    const commentSentence = this.sentence;
+    console.log(commentSentence);
     this.router.navigate(['/comment', commentSentence]);
   }
 

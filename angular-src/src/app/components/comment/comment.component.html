@@ -3,17 +3,23 @@
   <h2 class="font-red">
     {{ sentence.bookTitle }}
   </h2>
-
-  
-  <br>
-
+  <br><hr><br>
 </div>
+
+<div *ngFor="let comment of comments; let i = index">
+  
+  <p class="font-lightgrey">comment by: {{comment.username}}</p>
+    <h4>
+      {{ comment.body }}
+    </h4>
+</div>    
+<hr><br><br>
 
 
 <h2 class="page-header">Add a comment</h2>
-<form (submit)="onCommentSubmit(sentence)">
+<form (submit)="onCommentSubmit()">
   <div class="form-group">
-    <input type="text" [(ngModel)]="comment" name="comment" class="form-control"><br>
+    <input type="text" [(ngModel)]="inputComment" name="inputComment" class="form-control"><br>
     <input type="submit" class="btn btn-primary pull-right" value="Submit">
   </div>
 </form>
@@ -26,7 +32,7 @@
   <form (submit)="onSearchBookSubmit()" class="form-inline" role="form">
     <div class="form-group has-feedback">
       <br>
-      <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Search by book title"> 
+      <input type="text" [(ngModel)]="searchInputTitle" name="searchInputTitle" class="form-control" placeholder="Search by book title"> 
       <button class="btn btn-default pull-right">Search</button>
     </div> 
   </form> 

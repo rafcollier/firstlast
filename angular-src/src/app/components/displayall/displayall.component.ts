@@ -87,6 +87,13 @@ export class DisplayallComponent implements OnInit {
 
   } 
 
+  onCommentClick(sentence) {
+    console.log("User clicked on comments icon for:");
+    const commentSentence = sentence;
+    console.log(commentSentence);
+    this.router.navigate(['/comment', commentSentence]);
+  }
+
 
   onSearchBookSubmit(){
 

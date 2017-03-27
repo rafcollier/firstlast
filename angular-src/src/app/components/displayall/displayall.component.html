@@ -16,12 +16,12 @@
     <br>
     
     <div class="row">
-      <div class = "col-sm-3">
+      <div class = "col-sm-6">
         <div class="the-icons">
-          <p><a href="" onClick="return false;" class="likes-nolink"><span (click)="onLikeClick(sentence, i)" class="glyphicon glyphicon-thumbs-up"></span></a> {{ sentence.likes }}</p>
+          <p><a href="" onClick="return false;" class="likes-nolink"><span (click)="onLikeClick(sentence, i)" class="glyphicon glyphicon-thumbs-up"></span></a> {{ sentence.likes }}
+          <a href="" onClick="return false;" class="likes-nolink"><span (click)="onCommentClick(sentence)" class="glyphicon glyphicon-comment"></span></a> {{ sentence.comments.length }}</p>
         </div>
       </div>
-      <div class = "col-sm-3"></div>
       <div class = "col-sm-3"></div>
       <div class = "col-sm-3 font-lightgrey"><p>added by: {{sentence.enteredBy}}</div>
     </div>

@@ -12,21 +12,16 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./comment.component.css']
 })
 export class CommentComponent implements OnInit {
-	comment: Object;
-	username: String;
-	sentence: Object;
-  newSentence: Object;
-  title: String;
-  private sub: any;
-  likes: Number;
-  enteredBy: String;
-  bookTitle: String;
-  authorName: String;
-  firstSentence: String;
-  lastSentence: String;
-  likedBy: [String];
-  dateEntered: Date;
+	inputComment: Object;
   comments: [Object];
+	username: String;
+  getID: String;
+  searchInputTitle: String;
+  commentTitle: String;
+  getTitle: String;
+	sentence: Object;
+  newCommentSentence: Object;
+  private sub: any;
 
  constructor(
       private validateService: ValidateService, 
@@ -37,11 +32,39 @@ export class CommentComponent implements OnInit {
       ) { }
 
   ngOnInit() {
+
+
+    //Get the paramaters passed in to this route to identify which entry these comments are for.
     this.sub = this.route.params.subscribe(params => {
-      this.sentence = params;
-      console.log(this.sentence);
+      console.log(params);
+      this.getTitle = params["bookTitle"].toLowerCase();
+      this.getID = params["_id"];
     });
 
+
+    //Fetch this entry from database
+    this.authService.getSearchResult(this.getTitle).subscribe(data => {
+      console.log("Return from server after search request for book by title");
+      console.log(data);
+      if(data != null) {
+        this.sentence = data;
+        this.comments = data.comments;
+        console.log(this.comments); 
+        window.scroll(0, 0);
+      } else {
+        this.flashMessage.show('Problem fetching this sentence', {cssClass: 'alert-danger', timeout: 3000});
+        window.scroll(0, 0);
+        return false; 
+      }
+
+      }, 
+      err => {
+        console.log(err);
+        return false;
+    });
+
+
+    //Check if user is logged in and grab the user name. Only users can comment. 
     if (this.authService.loggedIn()) {
       this.authService.getProfile().subscribe(profile => {
         this.username = profile.user.username;
@@ -55,23 +78,27 @@ export class CommentComponent implements OnInit {
       window.scrollTo(0,0);
   }
 
-  //Must recreate object on a submit?
+  //Check if user is logged on submit. Grab new comment body from form. 
+  //Create new comment object to send to database with username, comment body, and db entry id 
+  //Send update request to server. When data comes back successfully, create a local comments array to display on page.
   onCommentSubmit(sentence){
   	if(this.authService.loggedIn()) {
       console.log(this.username);
       const comment = {
         username: this.username,
-        body: this.comment,
-        id: sentence._id
+        body: this.inputComment,
+        id: this.getID 
       }
 
       console.log(comment);
 
       this.authService.addComment(comment).subscribe(data => {
         console.log(data);
-        this.newSentence = data;
-        console.log(this.newSentence);
-        this.comment="";
+        this.comments = data.comments;
+        console.log(this.comments);
+        this.inputComment=""; //reset input field
+        window.scrollTo(0,0);
+        this.ngOnInit(); //go back to intialize
       },
       err => {
         console.log(err);
@@ -88,7 +115,7 @@ export class CommentComponent implements OnInit {
   onSearchBookSubmit(){
 
     const searchTitle = {
-      title: this.title
+      title: this.searchInputTitle
     }
 
     if(searchTitle.title != undefined || searchTitle.title != null) {
