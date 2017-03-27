@@ -17,9 +17,10 @@ const SentenceSchema = mongoose.Schema({
 	likedBy: {
 		type: [String]
 	},
-	comments: {
-		type: [Object]
-	},
+	comments: [{
+      	username: String,
+      	body: String
+	}],
 	bookTitle: {
 		type: String
 	},
@@ -69,6 +70,20 @@ module.exports.incrementLikes = function(sentence, callback) {
   const newLikeUser = likesUserArray[likesUserArray.length - 1];
   //query by id, pass incremented like count, set new to true to pass updated doc to callback
   Sentences.findOneAndUpdate(query, {likes: likesPlus, $push:{likedBy: newLikeUser}}, {new: true}, callback);
+}
+
+module.exports.addComment = function(comment, callback) {
+  console.log("In Sentences model...to add comment...")
+  const query = {_id:comment.id};
+  console.log(query);
+  console.log(comment.body);  
+  console.log(comment.username);  
+  const body = comment.body;
+  const username = comment.username;
+  const newComment = {"username": username, "body": body};
+  console.log(newComment);
+  //query by id, pass incremented like count, set new to true to pass updated doc to callback
+  Sentences.findOneAndUpdate(query, {$push:{comments: {"username": username, "body": body}}}, {new: true}, callback);
 }
 
 

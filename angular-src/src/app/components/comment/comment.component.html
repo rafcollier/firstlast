@@ -1,7 +1,37 @@
+<div *ngIf="sentence">
+
+  <h2 class="font-red">
+    {{ sentence.bookTitle }}
+  </h2>
+
+  
+  <br>
+
+</div>
+
+
 <h2 class="page-header">Add a comment</h2>
-<form (submit)="onCommentSubmit()">
+<form (submit)="onCommentSubmit(sentence)">
   <div class="form-group">
-    <input type="text" [(ngModel)]="comment" name="comment" class="form-control margin-bottom"><br>
+    <input type="text" [(ngModel)]="comment" name="comment" class="form-control"><br>
     <input type="submit" class="btn btn-primary pull-right" value="Submit">
   </div>
 </form>
+
+<br><br><br><hr>
+
+<div class="text-center">
+  <a class="btn btn-primary btn-lg margin-bottom" [routerLink]="['/displayall']">3 random entries</a>
+  <a class="btn btn-primary btn-lg margin-bottom" [routerLink]="['/quiz']">Quiz</a>
+  <form (submit)="onSearchBookSubmit()" class="form-inline" role="form">
+    <div class="form-group has-feedback">
+      <br>
+      <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Search by book title"> 
+      <button class="btn btn-default pull-right">Search</button>
+    </div> 
+  </form> 
+</div><br><br>
+ 
+ <div>
+    <br>
+ </div>

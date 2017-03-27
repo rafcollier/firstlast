@@ -19,7 +19,7 @@ export class SentencesComponent implements OnInit {
   firstSentence: String;
   lastSentence: String;
   likedBy: [String];
-  dateEntered: [Date];
+  dateEntered: Date;
   comments: [Object];
 
   constructor(
@@ -48,9 +48,9 @@ onSentencesSubmit(){
 
     const sentences = {
       likes: this.likes,
-      likedBy: this.likedBy,
-      dateEntered: this.dateEntered,
-      comments: this.comments, 
+      //likedBy: this.likedBy,
+      //dateEntered: this.dateEntered,
+      //comments: this.comments, 
       enteredBy: this.enteredBy,
       bookTitle: this.bookTitle,
       searchTitle: this.bookTitle.toLowerCase(),

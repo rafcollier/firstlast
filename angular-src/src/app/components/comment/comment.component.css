@@ -1,0 +1,36 @@
+.font-red {
+	color:red;
+}
+
+.font-grey {
+	color:grey;
+}
+
+.font-lightgrey {
+	color:lightgrey;
+}
+
+.margin-left {
+  margin-left:15px;
+}
+
+.likes-nolink {
+  
+  color: black;
+
+  :link {
+      color: black;
+  }
+
+  :visited {
+      color: black;
+  }
+
+  :hover {
+      color: black;
+  }
+
+  :active {
+      color: black;
+  }
+}

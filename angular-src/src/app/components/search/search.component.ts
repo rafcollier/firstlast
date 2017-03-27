@@ -42,7 +42,8 @@ export class SearchComponent implements OnInit {
     }
    
    window.scrollTo(0,0);
-  
+   
+   //Get the parameter passed in with the route (book title) 
   	console.log("In the search component...");
     this.sub = this.route.params.subscribe(params => {
   	  this.title = params['title'].toLowerCase();
@@ -93,7 +94,6 @@ export class SearchComponent implements OnInit {
     const commentSentence = this.sentence; 
     this.router.navigate(['/comment', commentSentence]);
   }
-
 
 
   onLikeClick(sentence) {

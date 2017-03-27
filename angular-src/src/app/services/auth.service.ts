@@ -82,6 +82,18 @@ export class AuthService {
       .map(res => res.json());
   } 
 
+  addComment(comment) {
+    let body = JSON.stringify(comment);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let options = new RequestOptions();
+    options.headers = headers;
+    console.log("http request to add comment");
+    //return this.http.put('sentences/addComment', body, options) //add this for local dev: http://localhost:3000/
+    return this.http.put('http://localhost:3000/sentences/addComment', body, options) //add this for local dev: http://localhost:3000/
+      .map(res => res.json());
+  } 
+
   getCollectionLength() {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
