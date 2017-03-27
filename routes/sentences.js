@@ -26,7 +26,7 @@ router.post('/sentences', (req, res, next) => {
     console.log("Returned from database with book");
     if(err) throw err;
     if(book) {
-      return res.json({sucess: false, msg: 'This book has already in the collection'})
+      return res.json({sucess: false, msg: 'This book is already in the collection'})
     }	
 
 	Sentences.addSentences(newSentences, (err, sentences) => {
