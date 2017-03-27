@@ -1329,18 +1329,16 @@ var SentencesComponent = (function () {
         }
         //Check success of write to database
         this.authService.submitSentences(sentences).subscribe(function (data) {
+            _this.bookTitle = "";
+            _this.authorName = "";
+            _this.firstSentence = "";
+            _this.lastSentence = "";
             if (data.success) {
                 _this.flashMessage.show('Thanks for contributing ', { cssClass: 'alert-success', timeout: 3000 });
-                //clear the input fields
-                _this.bookTitle = "";
-                _this.authorName = "";
-                _this.firstSentence = "";
-                _this.lastSentence = "";
-                //route back to input more sentences
                 _this.router.navigate(['/sentences']);
             }
             else {
-                _this.flashMessage.show('Sorry, something went wrong', { cssClass: 'alert-danger', timeout: 3000 });
+                _this.flashMessage.show(data.msg, { cssClass: 'alert-danger', timeout: 3000 });
                 _this.router.navigate(['/sentences']);
                 return false;
             }
