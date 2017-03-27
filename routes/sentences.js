@@ -22,14 +22,22 @@ router.post('/sentences', (req, res, next) => {
 
 	console.log("Entering sentences for user: " + newSentences.enteredBy);
 
-	Sentences.addSentences(newSentences, (err, sentences) => {
-		if(err) {
+    Sentences.getSentencesByBookTitle(newSentences.searchTitle, (err, book) => {
+      console.log("Returned from database with book");
+      if(err) throw err;
+      if(book) {
+      	return res.json({sucess: false, msg: 'This book has already in the collection'})
+      }	
+
+	  Sentences.addSentences(newSentences, (err, sentences) => {
+	    if(err) {
 			res.json({success: false, msg: 'Failed to add sentences'});
 		} else {
 			res.json({success: true, msg: 'Sentences added'});
 		}
-	});	
-});
+	  });	
+    });
+}
 
 //Get sentences to display on the homepage
 router.get('/getAllSentences', (req, res, next) => {
