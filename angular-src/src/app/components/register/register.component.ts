@@ -31,8 +31,8 @@ export class RegisterComponent implements OnInit {
   onRegisterSubmit(){
     console.log("Registration form submitted");
     const user = {
-      name: this.name,
-      email: this.email,
+      //name: this.name,
+      //email: this.email,
       username: this.username,
       password: this.password
     }
@@ -44,10 +44,10 @@ export class RegisterComponent implements OnInit {
     }
 
     //Validate Email
-    if(!this.validateService.validateEmail(user.email)) {
-      this.flashMessage.show('Please use a valid email address', {cssClass: 'alert-danger', timeout: 3000});
-      return false;
-    }
+    //if(!this.validateService.validateEmail(user.email)) {
+    //  this.flashMessage.show('Please use a valid email address', {cssClass: 'alert-danger', timeout: 3000});
+    //  return false;
+    //}
 
 
     //Register User

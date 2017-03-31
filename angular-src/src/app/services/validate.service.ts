@@ -7,7 +7,8 @@ export class ValidateService {
 
   validateRegister(user){
     console.log("Validating registration form");
-    if(user.name == undefined || user.email == undefined || user.name == undefined || user.password == undefined) {
+    //if(user.name == undefined || user.email == undefined || user.name == undefined || user.password == undefined) {
+    if(user.username == undefined || user.password == undefined) {
       return false;
     } else {
       return true;

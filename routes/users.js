@@ -24,12 +24,12 @@ router.post('/register', (req, res, next) => {
 			return res.json({success: false, msg: 'Username already registered'});
 		}
 
-		User.getUserByEmail(newUser.email, (err, email) => {
-			console.log("returned from database request to check for email duplication");
-			if(err) throw err;
-			if(email) {
-			return res.json({success: false, msg: 'Someone already registered with this email address'});
-			}
+		//User.getUserByEmail(newUser.email, (err, email) => {
+			//console.log("returned from database request to check for email duplication");
+			//if(err) throw err;
+			//if(email) {
+			//return res.json({success: false, msg: 'Someone already registered with this email address'});
+			//}
 
 			User.addUser(newUser, (err, user) => {
 				if(err) {
@@ -39,7 +39,7 @@ router.post('/register', (req, res, next) => {
 					console.log("success...new user added.");
 				}
 			});
-		});
+		//});
 	});
 });
 

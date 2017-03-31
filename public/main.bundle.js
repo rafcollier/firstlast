@@ -21,7 +21,8 @@ var ValidateService = (function () {
     }
     ValidateService.prototype.validateRegister = function (user) {
         console.log("Validating registration form");
-        if (user.name == undefined || user.email == undefined || user.name == undefined || user.password == undefined) {
+        //if(user.name == undefined || user.email == undefined || user.name == undefined || user.password == undefined) {
+        if (user.username == undefined || user.password == undefined) {
             return false;
         }
         else {
@@ -1087,8 +1088,8 @@ var RegisterComponent = (function () {
         var _this = this;
         console.log("Registration form submitted");
         var user = {
-            name: this.name,
-            email: this.email,
+            //name: this.name,
+            //email: this.email,
             username: this.username,
             password: this.password
         };
@@ -1098,10 +1099,10 @@ var RegisterComponent = (function () {
             return false;
         }
         //Validate Email
-        if (!this.validateService.validateEmail(user.email)) {
-            this.flashMessage.show('Please use a valid email address', { cssClass: 'alert-danger', timeout: 3000 });
-            return false;
-        }
+        //if(!this.validateService.validateEmail(user.email)) {
+        //  this.flashMessage.show('Please use a valid email address', {cssClass: 'alert-danger', timeout: 3000});
+        //  return false;
+        //}
         //Register User
         this.authService.registerUser(user).subscribe(function (data) {
             if (data.success) {
@@ -1430,7 +1431,7 @@ module.exports = ""
 /***/ 681:
 /***/ (function(module, exports) {
 
-module.exports = ".font-red {\n\tcolor:red;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}\n\n.margin-left {\n  margin-left:15px;\n}\n\n.likes-nolink {\n  \n  color: black;\n\n  :link {\n      color: black;\n  }\n\n  :visited {\n      color: black;\n  }\n\n  :hover {\n      color: black;\n  }\n\n  :active {\n      color: black;\n  }\n}"
+module.exports = ".font-red {\n\tcolor:red;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}\n\n.margin-left {\n  margin-left:15px;\n}\n\n.margin-bottom {\n  margin-bottom:15px;\n}\n\n.likes-nolink {\n  \n  color: black;\n\n  :link {\n      color: black;\n  }\n\n  :visited {\n      color: black;\n  }\n\n  :hover {\n      color: black;\n  }\n\n  :active {\n      color: black;\n  }\n}"
 
 /***/ }),
 
@@ -1444,7 +1445,7 @@ module.exports = ""
 /***/ 683:
 /***/ (function(module, exports) {
 
-module.exports = ".font-red {\n\tcolor:red;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}\n\n.margin-left {\n  margin-left:15px;\n}\n\n.likes-nolink {\n  \n  color: black;\n\n  :link {\n      color: black;\n  }\n\n  :visited {\n      color: black;\n  }\n\n  :hover {\n      color: black;\n  }\n\n  :active {\n      color: black;\n  }\n}"
+module.exports = ".font-red {\n\tcolor:red;\n}\n\n.font-grey {\n\tcolor:grey;\n}\n\n.font-lightgrey {\n\tcolor:lightgrey;\n}\n\n.margin-left {\n  margin-left:15px;\n}\n\n.margin-bottom {\n  margin-bottom:15px;\n}\n\n.likes-nolink {\n  \n  color: black;\n\n  :link {\n      color: black;\n  }\n\n  :visited {\n      color: black;\n  }\n\n  :hover {\n      color: black;\n  }\n\n  :active {\n      color: black;\n  }\n}"
 
 /***/ }),
 
@@ -1521,7 +1522,7 @@ module.exports = "<app-navbar></app-navbar>\n<div class = \"container\">\n  <fla
 /***/ 694:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"sentence\">\n\n  <h2 class=\"font-red\">\n    {{ sentence.bookTitle }}\n  </h2>\n  <br><hr><br>\n</div>\n\n<div *ngFor=\"let comment of comments; let i = index\">\n  \n  <p class=\"font-lightgrey\">comment by: {{comment.username}}</p>\n    <h4>\n      {{ comment.body }}\n    </h4><hr>\n</div>    \n<br>\n\n\n<h2 class=\"page-header\">Add a comment</h2>\n<form (submit)=\"onCommentSubmit()\">\n  <div class=\"form-group\">\n    <input type=\"text\" [(ngModel)]=\"inputComment\" name=\"inputComment\" class=\"form-control\"><br>\n    <input type=\"submit\" class=\"btn btn-primary pull-right\" value=\"Submit\">\n  </div>\n</form>\n\n<br><br><br><hr>\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"searchInputTitle\" name=\"searchInputTitle\" class=\"form-control\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n \n <div>\n    <br>\n </div>\n"
+module.exports = "<div *ngIf=\"sentence\">\n\n  <h2 class=\"font-red\">\n    {{ sentence.bookTitle }}\n  </h2>\n  <br><hr><br>\n</div>\n\n<div *ngFor=\"let comment of comments; let i = index\">\n  \n  <p class=\"font-lightgrey\">comment by: {{comment.username}}</p>\n    <h4>\n      {{ comment.body }}\n    </h4><hr>\n</div>    \n<br>\n\n\n<h2 class=\"page-header\">Add a comment</h2>\n<form (submit)=\"onCommentSubmit()\">\n  <div class=\"form-group\">\n    <input type=\"text\" [(ngModel)]=\"inputComment\" name=\"inputComment\" class=\"form-control\"><br>\n    <input type=\"submit\" class=\"btn btn-primary pull-right\" value=\"Submit\">\n  </div>\n</form>\n\n<br><br><br><hr>\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"searchInputTitle\" name=\"searchInputTitle\" class=\"form-control margin-bottom\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n \n <div>\n    <br>\n </div>\n"
 
 /***/ }),
 
@@ -1535,7 +1536,7 @@ module.exports = "<p>\n  dashboard works!\n</p>\n"
 /***/ 696:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngFor=\"let sentence of sentences; let i = index\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }}\n    </h4>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br>\n    \n    <div class=\"row\">\n      <div class = \"col-sm-6\">\n        <div class=\"the-icons\">\n          <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence, i)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}\n          <a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onCommentClick(sentence)\" class=\"glyphicon glyphicon-comment\"></span></a> {{ sentence.comments.length }}</p>\n        </div>\n      </div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n    </div>\n\n    <hr><br>\n  </div>\n\n <div class=\"text-center\">\n  <button (click)=\"ngOnInit()\" class=\"btn btn-primary btn-lg margin-bottom\">3 random entries</button>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>\n\n\n"
+module.exports = "<div *ngFor=\"let sentence of sentences; let i = index\">\n    <h4 class=\"font-red\">\n      {{ sentence.bookTitle }}\n    </h4>\n    <h4 class=\"font-grey\">\n      by {{ sentence.authorName }} \n    </h4>\n    <br>\n    <h4>\n      {{ sentence.firstSentence }}\n    </h4>\n    <br>\n    <h4>\n      {{ sentence.lastSentence }}\n    </h4>\n    <br>\n    \n    <div class=\"row\">\n      <div class = \"col-sm-6\">\n        <div class=\"the-icons\">\n          <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence, i)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}\n          <a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onCommentClick(sentence)\" class=\"glyphicon glyphicon-comment\"></span></a> {{ sentence.comments.length }}</p>\n        </div>\n      </div>\n      <div class = \"col-sm-3\"></div>\n      <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n    </div>\n\n    <hr><br>\n  </div>\n\n <div class=\"text-center\">\n  <button (click)=\"ngOnInit()\" class=\"btn btn-primary btn-lg margin-bottom\">3 random entries</button>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control margin-bottom\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>\n\n\n"
 
 /***/ }),
 
@@ -1549,7 +1550,7 @@ module.exports = "<p>\n  dummy works!\n</p>\n"
 /***/ 698:
 /***/ (function(module, exports) {
 
-module.exports = "\n\n<div class=\"jumbotron\">\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h3 class=\"text-center margin-bottom\">A collection of first and last sentences</h3>\n  <h4 class=\"text-center margin-bottom\">Please help grow this collection</h4>\n  <h4 class=\"text-center margin-bottom\">Register and add sentences from your favourite books</h4> \n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephenie Meyer</h4>\n</div>\n\n<div>\n  <h4 class = \"text-center\">There are first and last sentences from <span class=\"font-red\">{{size}} </span> books in First and Last</h4><br>\n</div>\n\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n\n\n <div>\n    <br>\n </div>\n\n\n\n"
+module.exports = "\n\n<div class=\"jumbotron\">\n  <h1 class=\"text-center\"> FIRST and LAST</h1>\n  <h3 class=\"text-center margin-bottom\">A collection of first and last sentences</h3>\n  <h4 class=\"text-center margin-bottom\">Please help grow this collection</h4>\n  <h4 class=\"text-center margin-bottom\">Register and add sentences from your favourite books</h4> \n  <h4 class=\"text-center margin-bottom\">Or even not-so-great books</h4>\n  <h4 class=\"text-center margin-bottom\">Or even books by Stephenie Meyer</h4>\n</div>\n\n<div>\n  <h4 class = \"text-center\">There are first and last sentences from <span class=\"font-red\">{{size}} </span> books in First and Last</h4><br>\n</div>\n\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control margin-bottom\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n\n\n <div>\n    <br>\n </div>\n\n\n\n"
 
 /***/ }),
 
@@ -1577,21 +1578,21 @@ module.exports = "<div *ngIf=\"user\">\n\t<h2 class = \"page-header\">{{user.nam
 /***/ 702:
 /***/ (function(module, exports) {
 
-module.exports = "\n<h3 class=\"text-center margin-bottom\">These sentences are from which book?</h3><br>\n\n\n<div *ngIf=\"sentences\">\n    <h4><hr>\n      {{ sentences[sentenceIndex].firstSentence }} \n    </h4><br>\n    <h4>\n       {{ sentences[sentenceIndex].lastSentence }} \n    </h4><hr>\n</div><br>\n\n<div *ngIf=\"streak != 0 || steak != NaN\">\n  <h4 class = \"text-center\"> <span class=\"font-red\"> {{streak}} </span> correct answers in a row</h4><br>\n</div><br>\n\n<div *ngIf=\"sentences\" class=\"text-center\">\n  <button (click)=\"onClickOne()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index0].bookTitle}}</button>\n  <button (click)=\"onClickTwo()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index1].bookTitle}}</button>\n  <button (click)=\"onClickThree()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index2].bookTitle}}</button>\n</div>\n<br>\n\n\n<hr><br><br>\n\n\n  <div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <button (click)=\"onResetQuiz()\" class=\"btn btn-primary btn-lg margin-bottom\">Quiz</button>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>"
+module.exports = "\n<h3 class=\"text-center margin-bottom\">These sentences are from which book?</h3><br>\n\n\n<div *ngIf=\"sentences\">\n    <h4><hr>\n      {{ sentences[sentenceIndex].firstSentence }} \n    </h4><br>\n    <h4>\n       {{ sentences[sentenceIndex].lastSentence }} \n    </h4><hr>\n</div><br>\n\n<div *ngIf=\"streak != 0 || steak != NaN\">\n  <h4 class = \"text-center\"> <span class=\"font-red\"> {{streak}} </span> correct answers in a row</h4><br>\n</div><br>\n\n<div *ngIf=\"sentences\" class=\"text-center\">\n  <button (click)=\"onClickOne()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index0].bookTitle}}</button>\n  <button (click)=\"onClickTwo()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index1].bookTitle}}</button>\n  <button (click)=\"onClickThree()\" class=\"btn btn-default btn-lg margin-bottom\" onclick=\"this.blur();\">{{sentences[index2].bookTitle}}</button>\n</div>\n<br>\n\n\n<hr><br><br>\n\n\n  <div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <button (click)=\"onResetQuiz()\" class=\"btn btn-primary btn-lg margin-bottom\">Quiz</button>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control margin-bottom\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n\n\n <div>\n    <br><br>\n </div>"
 
 /***/ }),
 
 /***/ 703:
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"page-header\">Register</h2>\n<form (submit)=\"onRegisterSubmit()\">\n  <div class=\"form-group\">\n    <label>Name</label>\n    <input type=\"text\" [(ngModel)]=\"name\" name=\"name\" class=\"form-control margin-bottom\">\n    <label>Username</label>\n    <input type=\"text\" [(ngModel)]=\"username\" name=\"username\" class=\"form-control margin-bottom\">\n    <label>Email</label>\n    <input type=\"text\" [(ngModel)]=\"email\" name=\"email\" class=\"form-control margin-bottom\">\n    <label>Password</label>\n    <input type=\"text\" [(ngModel)]=\"password\" name=\"password\" class=\"form-control margin-bottom\">\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\">\n  </div>\n</form>\n\n"
+module.exports = "<h2 class=\"page-header\">Register</h2>\n<form (submit)=\"onRegisterSubmit()\">\n  <div class=\"form-group\">\n    <!--<label>Name</label>\n    <input type=\"text\" [(ngModel)]=\"name\" name=\"name\" class=\"form-control margin-bottom\">-->\n    <label>Username</label>\n    <input type=\"text\" [(ngModel)]=\"username\" name=\"username\" class=\"form-control margin-bottom\">\n    <!--<label>Email</label>\n    <input type=\"text\" [(ngModel)]=\"email\" name=\"email\" class=\"form-control margin-bottom\">-->\n    <label>Password</label>\n    <input type=\"text\" [(ngModel)]=\"password\" name=\"password\" class=\"form-control margin-bottom\">\n    <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\">\n  </div>\n</form>\n\n"
 
 /***/ }),
 
 /***/ 704:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"sentence\">\n\n  <h4 class=\"font-red\">\n    {{ sentence.bookTitle }}\n  </h4>\n  <h4 class=\"font-grey\">\n    by {{ sentence.authorName }} \n  </h4>\n  <br>\n  <h4>\n    {{ sentence.firstSentence }}\n  </h4>\n  <br>\n  <h4>\n    {{ sentence.lastSentence }}\n  </h4>\n  <br>\n    \n  <div class=\"row\">\n    <div class = \"col-sm-6\">\n      <div class=\"the-icons\">\n        <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}\n        <a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onCommentClick()\" class=\"glyphicon glyphicon-comment\"></span></a> {{ numComments }}</p>\n      </div>\n    </div>\n    <div class = \"col-sm-3\"></div>\n    <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n  </div><hr><br>\n</div>\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n \n <div>\n    <br>\n </div>\n"
+module.exports = "<div *ngIf=\"sentence\">\n\n  <h4 class=\"font-red\">\n    {{ sentence.bookTitle }}\n  </h4>\n  <h4 class=\"font-grey\">\n    by {{ sentence.authorName }} \n  </h4>\n  <br>\n  <h4>\n    {{ sentence.firstSentence }}\n  </h4>\n  <br>\n  <h4>\n    {{ sentence.lastSentence }}\n  </h4>\n  <br>\n    \n  <div class=\"row\">\n    <div class = \"col-sm-6\">\n      <div class=\"the-icons\">\n        <p><a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onLikeClick(sentence)\" class=\"glyphicon glyphicon-thumbs-up\"></span></a> {{ sentence.likes }}\n        <a href=\"\" onClick=\"return false;\" class=\"likes-nolink\"><span (click)=\"onCommentClick()\" class=\"glyphicon glyphicon-comment\"></span></a> {{ numComments }}</p>\n      </div>\n    </div>\n    <div class = \"col-sm-3\"></div>\n    <div class = \"col-sm-3 font-lightgrey\"><p>added by: {{sentence.enteredBy}}</div>\n  </div><hr><br>\n</div>\n\n<div class=\"text-center\">\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/displayall']\">3 random entries</a>\n  <a class=\"btn btn-primary btn-lg margin-bottom\" [routerLink]=\"['/quiz']\">Quiz</a>\n  <form (submit)=\"onSearchBookSubmit()\" class=\"form-inline\" role=\"form\">\n    <div class=\"form-group has-feedback\">\n      <br>\n      <input type=\"text\" [(ngModel)]=\"title\" name=\"title\" class=\"form-control margin-bottom\" placeholder=\"Search by book title\"> \n      <button class=\"btn btn-default pull-right\">Search</button>\n    </div> \n  </form> \n</div><br><br>\n \n <div>\n    <br>\n </div>\n"
 
 /***/ }),
 
