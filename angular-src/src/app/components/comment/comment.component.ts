@@ -81,7 +81,7 @@ export class CommentComponent implements OnInit {
   //Check if user is logged on submit. Grab new comment body from form. 
   //Create new comment object to send to database with username, comment body, and db entry id 
   //Send update request to server. When data comes back successfully, create a local comments array to display on page.
-  onCommentSubmit(sentence){
+  onCommentSubmit(){
   	if(this.authService.loggedIn()) {
       console.log(this.username);
       const comment = {
