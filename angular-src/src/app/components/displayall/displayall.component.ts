@@ -55,21 +55,50 @@ export class DisplayallComponent implements OnInit {
 
  	}
 
-  onLikeClick(sentence, index) {
+ // onLikeClick(sentence, index) {
     //console.log("Here are the likes" + sentence.likes);
 
-    if(this.authService.loggedIn()) {
-      console.log(this.username);
-      console.log(sentence.likedBy);
-      const isInArray = sentence.likedBy.includes(this.username); 
+  //  if(this.authService.loggedIn()) {
+  //    console.log(this.username);
+  //    console.log(sentence.likedBy);
+  //    const isInArray = sentence.likedBy.includes(this.username); //this user already liked this sentence-pair 
+//
+//      if(!isInArray) {
+//        sentence.likedBy.push(this.username); 
+//        console.log("Push to likes array so same user can't like twice: " + sentence.likedBy);
+//        this.authService.incrementLikes(sentence).subscribe(data => {
+//          console.log(data);
+//          this.sentences[index] = data;
+//          console.log(this.sentences[index]);
+//        },
+//        err => {
+//          console.log(err);
+//          return false;
+//        });
+//      } else {
+//        window.scroll(0, 0);
+//        this.flashMessage.show('Hey ' + this.username + ', you already liked this one.', {cssClass: 'alert-danger', timeout: 2000}); 
+//        return false; 
+//      }
+//    } else {
+//        window.scroll(0, 0);
+//        this.flashMessage.show('You must log in to like sentences', {cssClass: 'alert-danger', timeout: 2000}); 
+//    }
+//
+//  } 
 
+  onLikeClick(sentence, index) {
+    if(this.authService.loggedIn()) {
+      const isInArray = sentence.likedBy.includes(this.username); //this user already liked this sentence-pair 
       if(!isInArray) {
-        sentence.likedBy.push(this.username); 
-        console.log("Push to likes array so same user can't like twice: " + sentence.likedBy);
-        this.authService.incrementLikes(sentence).subscribe(data => {
-          console.log(data);
+        const updateLikes = {
+          likeID: sentence._id,
+          likeUsername: this.username
+        }
+        console.log(updateLikes);
+        this.authService.incrementLikes(updateLikes).subscribe(data => {
           this.sentences[index] = data;
-          console.log(this.sentences[index]);
+          console.log(data);
         },
         err => {
           console.log(err);
@@ -86,6 +115,7 @@ export class DisplayallComponent implements OnInit {
     }
 
   } 
+
 
   onCommentClick(sentence) {
     console.log("User clicked on comments icon for:");

@@ -82,7 +82,7 @@ router.get('/searchBook', (req, res, next) => {
 //Increment likes for book found by ID
 router.put('/incrementLikes', (req, res, next) => {
 	console.log("In the backend router to increment likes");
-	//console.log(req.body);
+	console.log(req.body);
 	Sentences.incrementLikes(req.body, (err, docs) => {
       if(err) throw err;
 	  else {
@@ -92,7 +92,7 @@ router.put('/incrementLikes', (req, res, next) => {
 	})
 });
 
-//Increment likes for book found by ID
+//Add comments to setence
 router.put('/addComment', (req, res, next) => {
 	console.log("In the backend router to add comment");
 	console.log(req.body);

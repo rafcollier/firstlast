@@ -65,8 +65,19 @@ export class AuthService {
       .map(res => res.json());
   } 
 
-  incrementLikes(sentence) {
-    let body = JSON.stringify(sentence);
+  //incrementLikes(sentence) {
+  //  let body = JSON.stringify(sentence);
+ //   let headers = new Headers();
+ //   headers.append('Content-Type', 'application/json');
+ //   let options = new RequestOptions();
+ //   options.headers = headers;
+    //return this.http.put('sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
+ //   return this.http.put('http://localhost:3000/sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
+ //     .map(res => res.json());
+ // } 
+
+  incrementLikes(updateLikes) {
+    let body = JSON.stringify(updateLikes);
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     let options = new RequestOptions();

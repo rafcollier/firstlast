@@ -100,16 +100,19 @@ export class SearchComponent implements OnInit {
 
 
   onLikeClick(sentence) {
-  //console.log("Here are the likes" + sentence.likes);
+  console.log("Here are the likes" + sentence.likes);
     if(this.authService.loggedIn()) {
       console.log(this.username);
       console.log(sentence.likedBy);
       const isInArray = sentence.likedBy.includes(this.username); 
 
       if(!isInArray) {
-      sentence.likedBy.push(this.username); 
-        console.log("Push to likes array so same user can't like twice: " + sentence.likedBy);
-        this.authService.incrementLikes(sentence).subscribe(data => {
+      const updateLikes = {
+          likeID: sentence._id,
+          likeUsername: this.username
+        }
+        console.log(updateLikes);
+        this.authService.incrementLikes(updateLikes).subscribe(data => {
           console.log(data);
           this.sentence = data;
           console.log(this.sentence);
@@ -128,6 +131,36 @@ export class SearchComponent implements OnInit {
         this.flashMessage.show('You must log in to like sentences', {cssClass: 'alert-danger', timeout: 2000}); 
     }
   } 
+
+//onLikeClick(sentence) {
+  //console.log("Here are the likes" + sentence.likes);
+   // if(this.authService.loggedIn()) {
+   //   console.log(this.username);
+   //   console.log(sentence.likedBy);
+   //   const isInArray = sentence.likedBy.includes(this.username); 
+//
+//      if(!isInArray) {
+//      sentence.likedBy.push(this.username); 
+//        console.log("Push to likes array so same user can't like twice: " + sentence.likedBy);
+//        this.authService.incrementLikes(sentence).subscribe(data => {
+//          console.log(data);
+//          this.sentence = data;
+//          console.log(this.sentence);
+//        },
+//        err => {
+//          console.log(err);
+//          return false;
+//        });
+//      } else {
+//         window.scroll(0, 0);
+//         this.flashMessage.show('Hey ' + this.username + ', you already liked this one.', {cssClass: 'alert-danger', timeout: 2000}); 
+//         return false; 
+//      }
+//    } else {
+//        window.scroll(0, 0);
+//        this.flashMessage.show('You must log in to like sentences', {cssClass: 'alert-danger', timeout: 2000}); 
+//    }
+//  } 
 
   
 
