@@ -21,6 +21,7 @@ export class SentencesComponent implements OnInit {
   likedBy: [String];
   dateEntered: Date;
   comments: [Object];
+  title: String;
 
   constructor(
       private validateService: ValidateService, 
@@ -40,9 +41,45 @@ export class SentencesComponent implements OnInit {
       console.log(err);
       return false;
     });
+   }
+
+  searchBook(title) {
+    this.authService.getSearchResult(title).subscribe(data => {
+      console.log("Return from server after search request for book by title");
+      console.log(data);
+      this.title="";
+      if(data != null) {
+        this.flashMessage.show('This book is already in the database. Try another?', {cssClass: 'alert-danger', timeout: 3000});
+        console.log("found the title");
+        window.scroll(0, 0);
+      } else {
+        this.flashMessage.show('This book has not yet been added. Please add below', {cssClass: 'alert-success', timeout: 3000});
+        window.scroll(0, 0);
+      }
+    }, 
+      err => {
+        console.log(err);
+        return false;
+      });
+    }
+
+
+  onSearchBookSubmit(){
+    console.log("In search function on search page");
+    const searchTitle = {
+      title: this.title
+    }
+
+    console.log(searchTitle.title.length);
+
+    if(searchTitle.title.length > 0) {
+      this.searchBook(searchTitle.title.toLowerCase());
+    }
   }
 
-onSentencesSubmit(){
+
+
+  onSentencesSubmit(){
 
     this.likes = 0;
 

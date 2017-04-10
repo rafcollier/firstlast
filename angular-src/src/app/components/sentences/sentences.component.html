@@ -1,4 +1,15 @@
 <h2 class="page-header">Enter first and last sentences</h2>
+
+<p>Check if book is already in database before filling out the form below</p>
+<form (submit)="onSearchBookSubmit()" class="form-inline" role="form">
+  <div class="form-group has-feedback">
+    <br>
+      <input type="text" [(ngModel)]="title" name="title" class="form-control margin-bottom" placeholder="Search by book title"> 
+      <button class="btn btn-default pull-right">Search</button>
+  </div> 
+</form><br><br> 
+
+
 <form (submit)="onSentencesSubmit()">
   <div class="form-group">
     <label>Book Title</label>
@@ -12,3 +23,5 @@
     <input type="submit" class="btn btn-primary" value="Submit">
   </div>
 </form>
+
+
