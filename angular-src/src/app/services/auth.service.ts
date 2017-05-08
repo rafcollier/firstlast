@@ -19,8 +19,8 @@ export class AuthService {
   registerUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) //for local development
-    //return this.http.post('users/register', user, {headers: headers})
+    //return this.http.post('http://localhost:3000/users/register', user, {headers: headers}) //for local development
+    return this.http.post('users/register', user, {headers: headers})
       .map(res => res.json());
   }
 
@@ -29,16 +29,16 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/sentences/sentences', sentences, {headers: headers}) //for local development
-    //return this.http.post('sentences/sentences', sentences, {headers: headers}) //for local development
+    //return this.http.post('http://localhost:3000/sentences/sentences', sentences, {headers: headers}) //for local development
+    return this.http.post('sentences/sentences', sentences, {headers: headers}) //for local development
       .map(res => res.json());
   }
 
   authenticateUser(user) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //return this.http.post('users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
-    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
+    return this.http.post('users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
+    //return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   }
 
@@ -47,8 +47,8 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    //return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
-    return this.http.get('http://localhost:3000/users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
+    return this.http.get('users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
+    //return this.http.get('http://localhost:3000/users/profile', {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
 
@@ -60,8 +60,8 @@ export class AuthService {
     let options = new RequestOptions();
     options.headers = headers;
     options.search = params;
-    //return this.http.get('sentences/searchBook', options) //add this for local dev: http://localhost:3000/
-    return this.http.get('http://localhost:3000/sentences/searchBook', options) //add this for local dev: http://localhost:3000/
+    return this.http.get('sentences/searchBook', options) //add this for local dev: http://localhost:3000/
+    //return this.http.get('http://localhost:3000/sentences/searchBook', options) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
 
@@ -82,8 +82,8 @@ export class AuthService {
     headers.append('Content-Type', 'application/json');
     let options = new RequestOptions();
     options.headers = headers;
-    //return this.http.put('sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
-    return this.http.put('http://localhost:3000/sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
+    return this.http.put('sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
+    //return this.http.put('http://localhost:3000/sentences/incrementLikes', body, options) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
 
@@ -93,32 +93,32 @@ export class AuthService {
     headers.append('Content-Type', 'application/json');
     let options = new RequestOptions();
     options.headers = headers;
-    //return this.http.put('sentences/addComment', body, options) //add this for local dev: http://localhost:3000/
-    return this.http.put('http://localhost:3000/sentences/addComment', body, options) //add this for local dev: http://localhost:3000/
+    return this.http.put('sentences/addComment', body, options) //add this for local dev: http://localhost:3000/
+    //return this.http.put('http://localhost:3000/sentences/addComment', body, options) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
 
   getCollectionLength() {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //return this.http.get('sentences/collectionLength', {headers: headers}) //add this for local dev: http://localhost:3000/
-    return this.http.get('http://localhost:3000/sentences/collectionLength', {headers: headers}) //add this for local dev: http://localhost:3000/
+    return this.http.get('sentences/collectionLength', {headers: headers}) //add this for local dev: http://localhost:3000/
+    //return this.http.get('http://localhost:3000/sentences/collectionLength', {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
 
   getSentences() {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //return this.http.get('sentences/getAllSentences', {headers: headers}) //add this for local dev: http://localhost:3000/
-    return this.http.get('http://localhost:3000/sentences/getAllSentences', {headers: headers}) //add this for local dev: http://localhost:3000/
+    return this.http.get('sentences/getAllSentences', {headers: headers}) //add this for local dev: http://localhost:3000/
+    //return this.http.get('http://localhost:3000/sentences/getAllSentences', {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
 
   getAllTitles() {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //return this.http.get('sentences/getAllSentences', {headers: headers}) //add this for local dev: http://localhost:3000/
-    return this.http.get('http://localhost:3000/sentences/getAllTitles', {headers: headers}) //add this for local dev: http://localhost:3000/
+    return this.http.get('sentences/getAllSentences', {headers: headers}) //add this for local dev: http://localhost:3000/
+    //return this.http.get('http://localhost:3000/sentences/getAllTitles', {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
 
