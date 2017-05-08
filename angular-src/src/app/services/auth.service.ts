@@ -117,7 +117,7 @@ export class AuthService {
   getAllTitles() {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.get('sentences/getAllSentences', {headers: headers}) //add this for local dev: http://localhost:3000/
+    return this.http.get('sentences/getAllTitles', {headers: headers}) //add this for local dev: http://localhost:3000/
     //return this.http.get('http://localhost:3000/sentences/getAllTitles', {headers: headers}) //add this for local dev: http://localhost:3000/
       .map(res => res.json());
   } 
