@@ -47,6 +47,11 @@ module.exports.getSentencesById = function(id, callback) {
 	Sentences.findById(id, callback);
 }
 
+//Search by searchTitle for all books and return in alphabetical order
+module.exports.findAllSort = function(callback) {
+	Sentences.find({}, null, {sort: {searchTitle: 1}}, callback);
+}
+
 module.exports.getSentencesByBookTitle = function(searchTitle, callback) {
 	const query = {searchTitle: searchTitle}
 	Sentences.findOne(query, callback);

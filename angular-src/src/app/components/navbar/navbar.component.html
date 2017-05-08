@@ -13,6 +13,7 @@
           
           <ul class="nav navbar-nav navbar-right">
             <li [routerLinkActive] = "['active']" [routerLinkActiveOptions] = "{exact:true}"> <a (click)="onRefreshHome()" [routerLink]="['/']">Home</a></li>
+            <li [routerLinkActive] = "['active']" [routerLinkActiveOptions] = "{exact:true}"> <a [routerLink]="['/about']">About</a></li>
             <li *ngIf="authService.loggedIn()" [routerLinkActive] = "['active']" [routerLinkActiveOptions] = "{exact:true}"> <a [routerLink]="['/sentences']">Add Sentences</a></li>
             <!--<li *ngIf="authService.loggedIn()" [routerLinkActive] = "['active']" [routerLinkActiveOptions] = "{exact:true}"> <a [routerLink]="['/profile']">Profile</a></li>a-->
             <li *ngIf="!authService.loggedIn()" [routerLinkActive] = "['active']" [routerLinkActiveOptions] = "{exact:true}"> <a [routerLink]="['/login']">Login</a></li>

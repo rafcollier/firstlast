@@ -24,16 +24,20 @@ import { QuizComponent } from './components/quiz/quiz.component';
 import { DummyComponent } from './components/dummy/dummy.component';
 import { SearchComponent } from './components/search/search.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { AboutComponent } from './components/about/about.component';
+import { AlltitlesComponent } from './components/alltitles/alltitles.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'search', component: SearchComponent},
+  {path: 'about', component: AboutComponent},
   {path: 'search/:title', component: SearchComponent},
   {path: 'dummy', component: DummyComponent},
   {path: 'login', component: LoginComponent},
   {path: 'quiz', component: QuizComponent},
   {path: 'displayall', component: DisplayallComponent},
+  {path: 'alltitles', component: AlltitlesComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   {path: 'comment', component: CommentComponent},
   {path: 'sentences', component: SentencesComponent, canActivate:[AuthGuard]},
@@ -55,7 +59,9 @@ const appRoutes: Routes = [
     QuizComponent,
     DummyComponent,
     SearchComponent,
-    CommentComponent
+    CommentComponent,
+    AboutComponent,
+    AlltitlesComponent
   ],
   imports: [
     BrowserModule,

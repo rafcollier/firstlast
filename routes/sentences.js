@@ -54,6 +54,21 @@ router.get('/getAllSentences', (req, res, next) => {
 	});
 });
 
+//Get sentences to display on the homepage
+router.get('/getAllTitles', (req, res, next) => {
+  console.log("In the backend router to get titles");
+  console.log(req.body);
+  //Sentences.find({}, function (err, docs) {  
+  Sentences.findAllSort((err, docs) => {	
+	console.log("Query the database for all sentences");
+	if(!err) {
+	  console.log("Here are the sentences:" + docs);	
+	  res.json(docs);
+	  } else {throw err;}
+  });
+});
+
+
 //Get number of books in the collection
 router.get('/collectionLength', (req, res, next) => {
 	console.log("In the backend router to get collection length");

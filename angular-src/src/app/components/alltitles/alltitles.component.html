@@ -1,0 +1,6 @@
+<div *ngFor="let sentence of sentences; let i = index">
+    <h4 class="font-red">
+      <a href="" onClick="return false;" class="titles-nolink"><span (click)="onTitleClick(sentence, i)">{{ sentence.bookTitle }}</span></a>
+    </h4>
+
+</div>
