@@ -30,6 +30,22 @@ export class AlltitlesComponent implements OnInit {
 
   ngOnInit() {
 
+    console.log("Entering show all titles");
+
+    if (this.authService.loggedIn()) {
+      console.log("User is logged in");
+      this.authService.getProfile().subscribe(profile => {
+        this.username = profile.user.username;
+        console.log("Profile returned from server for: " + this.username);
+      },
+      err => {
+        console.log(err);
+        return false;
+      });
+    } else {
+      console.log("User not logged in");
+    }
+
     this.showSentences = false;
     
     console.log("Calling sevice to get sentences");
@@ -93,7 +109,7 @@ export class AlltitlesComponent implements OnInit {
     console.log(commentSentence);
     this.router.navigate(['/comment', commentSentence]);
   }
-  
+
 
 }
 
