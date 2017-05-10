@@ -14,8 +14,10 @@ export class AlltitlesComponent implements OnInit {
   sentences: [Object]; //getting an array of objects from the database
   bookName: String;
   likes: Number;
+  sentenceIndex: Number;
   title: String;
   username: String;
+  showSentences: Boolean;
   authToken: any;
 
 
@@ -27,6 +29,8 @@ export class AlltitlesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.showSentences = false;
     
     console.log("Calling sevice to get sentences");
 	  this.authService.getAllTitles().subscribe(entries => {
@@ -44,7 +48,12 @@ export class AlltitlesComponent implements OnInit {
 
 
   onTitleClick(sentence, index) {
-    console.log("clicked title name")
+    console.log("clicked title name");
+    console.log("sentence: " + sentence);
+    console.log("index: " + index);
+    this.showSentences = true;
+    this.sentenceIndex = index;
+    console.log(this.showSentences);
 
   }
 

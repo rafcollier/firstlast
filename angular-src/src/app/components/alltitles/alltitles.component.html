@@ -1,6 +1,27 @@
-<div *ngFor="let sentence of sentences; let i = index">
-    <h4 class="font-red">
-      <a href="" onClick="return false;" class="titles-nolink"><span (click)="onTitleClick(sentence, i)">{{ sentence.bookTitle }}</span></a>
-    </h4>
-
+<div>
+  <h4 class = "text-center">Click on a book title to see its first and last sentences</h4><br>
 </div>
+<hr>
+
+
+<div *ngFor="let sentence of sentences; let i = index">
+  <h4 class="font-red">
+    <a href="" onClick="return false;" class="titles-nolink"><span (click)="onTitleClick(sentence, i)">{{ sentence.bookTitle }}</span></a>
+  </h4>
+  <div *ngIf = "showSentences && (i == sentenceIndex)">
+    <hr> 
+    <h4 class="font-red">
+      {{ "by " + sentences[sentenceIndex].authorName }}
+    </h4>
+    <h4 class="font-grey">
+      {{ sentences[sentenceIndex].firstSentence }}
+    </h4>
+    <h4 class="font-grey">
+      {{ sentences[sentenceIndex].lastSentence }}
+    </h4>
+    <hr> 
+  </div>
+</div>
+
+
+
